@@ -33,6 +33,8 @@
     "react-hooks/exhaustive-deps": "warn",
     "import/prefer-default-export": "off",
     "prettier/prettier": "error",
+    "react/jsx-props-no-spreading": "off",
+    "react/prop-types": "off",
     "@typescript-eslint/explicit-function-return-type": [
       "error",
       {
