@@ -16,7 +16,7 @@ const MyRoute: React.FC<MyRouteProps> = ({ isPrivate = false, ...rest }) => {
     <Redirect
       to={{
         pathname: isPrivate ? '/' : '/dashboard',
-        state: { redirect: rest.path },
+        state: { from: rest.location },
       }}
     />
   );

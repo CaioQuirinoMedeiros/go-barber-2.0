@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 import { FiArrowLeft, FiMail, FiLock, FiUser } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import { object, string } from 'yup';
@@ -33,6 +33,8 @@ const SignUp: React.FC = () => {
   const { signUp } = useAuth();
   const { addToast } = useToast();
 
+  const { push } = useHistory();
+
   const formRef = useRef<FormHandles>(null);
 
   const handleLoginSubmit = useCallback(
@@ -63,6 +65,8 @@ const SignUp: React.FC = () => {
             'Parabéns, sua conta foi criada, utilize seus dados para fazer login',
           type: 'success',
         });
+
+        push('/');
       } catch (err) {
         addToast({
           title: `Erro ao se cadastrar`,
@@ -71,7 +75,7 @@ const SignUp: React.FC = () => {
         });
       }
     },
-    [signUp, addToast]
+    [signUp, addToast, push]
   );
 
   return (
