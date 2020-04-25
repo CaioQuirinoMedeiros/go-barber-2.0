@@ -5,8 +5,10 @@ import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import { object, string } from 'yup';
 
-import { useAuth } from '../../hooks/AuthContext';
+import { useAuth } from '../../hooks/auth';
+import { useToast } from '../../hooks/toast';
 import getValidationErrors from '../../utils/getValidationErrors';
+import getToastErrors from '../../utils/getToastErrors';
 import logo from '../../assets/logo.svg';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -29,6 +31,7 @@ interface SignupDataForm {
 
 const SignUp: React.FC = () => {
   const { signUp } = useAuth();
+  const { addToast } = useToast();
 
   const formRef = useRef<FormHandles>(null);
 
@@ -42,17 +45,33 @@ const SignUp: React.FC = () => {
         const errors = getValidationErrors(err);
 
         formRef.current?.setErrors(errors);
+
+        const toastErrors = getToastErrors(err);
+        toastErrors.forEach(toastError => {
+          addToast(toastError);
+        });
+        return;
       }
 
       try {
         await signUp(data);
 
         formRef.current?.reset();
+        addToast({
+          title: `Cadastrado com sucesso!`,
+          description:
+            'Parabéns, sua conta foi criada, utilize seus dados para fazer login',
+          type: 'success',
+        });
       } catch (err) {
-        console.log({ err });
+        addToast({
+          title: `Erro ao se cadastrar`,
+          description: 'Não foi possível criar o usuário, verifique seus dados',
+          type: 'error',
+        });
       }
     },
-    [signUp]
+    [signUp, addToast]
   );
 
   return (

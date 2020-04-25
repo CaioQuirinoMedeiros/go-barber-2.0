@@ -5,11 +5,13 @@ import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import { object, string } from 'yup';
 
-import { useAuth } from '../../hooks/AuthContext';
+import { useAuth } from '../../hooks/auth';
+import { useToast } from '../../hooks/toast';
 import logo from '../../assets/logo.svg';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import getValidationErrors from '../../utils/getValidationErrors';
+import getToastErrors from '../../utils/getToastErrors';
 
 import { Container, Content, Background } from './styles';
 
@@ -27,6 +29,7 @@ interface LoginFormData {
 
 const Login: React.FC = () => {
   const { signIn } = useAuth();
+  const { addToast } = useToast();
 
   const formRef = useRef<FormHandles>(null);
 
@@ -38,17 +41,24 @@ const Login: React.FC = () => {
         await loginSchema.validate(data, { abortEarly: false });
       } catch (err) {
         const errors = getValidationErrors(err);
-
         formRef.current?.setErrors(errors);
+
+        const toastErrors = getToastErrors(err);
+        toastErrors.forEach(toastError => {
+          addToast(toastError);
+        });
+
+        return;
       }
 
       try {
         await signIn(data);
+        addToast({ title: 'Sucesso', description: 'Opa', type: 'success' });
       } catch (err) {
-        console.log('Opa');
+        addToast({ title: 'Error', description: 'Opa', type: 'error' });
       }
     },
-    [signIn]
+    [signIn, addToast]
   );
 
   return (

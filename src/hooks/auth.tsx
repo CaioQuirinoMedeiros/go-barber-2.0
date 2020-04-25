@@ -4,7 +4,9 @@ import api from '../services/api';
 import { TOKEN_KEY, USER_KEY } from '../constants/auth';
 
 interface AuthContextData {
-  user: object;
+  user: {
+    name: string;
+  };
   signIn(credentials: { email: string; password: string }): Promise<void>;
   signUp(credentials: {
     name: string;
@@ -16,14 +18,18 @@ interface AuthContextData {
 
 interface LoginResponse {
   token: string;
-  user: object;
+  user: {
+    name: string;
+  };
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 interface AuthState {
   token: string;
-  user: object;
+  user: {
+    name: string;
+  };
 }
 
 const AuthProvider: React.FC = ({ children }) => {
