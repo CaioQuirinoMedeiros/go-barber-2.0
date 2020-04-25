@@ -53,9 +53,17 @@ const Login: React.FC = () => {
 
       try {
         await signIn(data);
-        addToast({ title: 'Sucesso', description: 'Opa', type: 'success' });
+        addToast({
+          title: 'Bem-vindo',
+          type: 'success',
+        });
       } catch (err) {
-        addToast({ title: 'Error', description: 'Opa', type: 'error' });
+        addToast({
+          title: 'Erro ao realizar login',
+          description:
+            'Não foi possível fazer login, verifique suas credenciais',
+          type: 'error',
+        });
       }
     },
     [signIn, addToast]
