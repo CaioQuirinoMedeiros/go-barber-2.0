@@ -35,6 +35,7 @@
     "prettier/prettier": "error",
     "react/jsx-props-no-spreading": "off",
     "react/prop-types": "off",
+    "no-unused-expressions": "off",
     "@typescript-eslint/explicit-function-return-type": [
       "error",
       {
