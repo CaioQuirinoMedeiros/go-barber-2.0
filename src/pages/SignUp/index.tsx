@@ -37,7 +37,7 @@ const SignUp: React.FC = () => {
 
   const formRef = useRef<FormHandles>(null);
 
-  const handleLoginSubmit = useCallback(
+  const handleSignUpSubmit = useCallback(
     async (data: SignupDataForm) => {
       formRef.current?.setErrors({});
 
@@ -84,7 +84,7 @@ const SignUp: React.FC = () => {
 
       <Content>
         <img src={logo} alt="go barber logo" />
-        <Form onSubmit={handleLoginSubmit} ref={formRef}>
+        <Form onSubmit={handleSignUpSubmit} ref={formRef}>
           <h1>Faça seu cadastro</h1>
           <Input placeholder="Nome" name="name" icon={FiUser} />
           <Input placeholder="E-mail" name="email" icon={FiMail} />
