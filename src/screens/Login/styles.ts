@@ -15,6 +15,7 @@ export const Container = styled.KeyboardAvoidingView.attrs({
 `;
 
 export const Scrollable = styled.ScrollView.attrs({
+  showsVerticalScrollIndicator: false,
   contentContainerStyle: {
     flexGrow: 1,
     paddingBottom: 30,

@@ -15,9 +15,10 @@ export const Container = styled.KeyboardAvoidingView.attrs({
 `;
 
 export const Scrollable = styled.ScrollView.attrs({
+  showsVerticalScrollIndicator: false,
   contentContainerStyle: {
     flexGrow: 1,
-    paddingBottom: 30,
+    paddingBottom: 80,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -37,13 +38,7 @@ export const Button = styled(MyButton)`
   margin-top: 8px;
 `;
 
-export const ForgotPassword = styled(MyTextButton)`
-  margin-top: 24px;
-  margin-bottom: 30px;
-  font-size: 16px;
-`;
-
-export const CreateAccount = styled(MyTextButton).attrs({
+export const BackToLogin = styled(MyTextButton).attrs({
   buttonProps: {
     style: {
       position: 'absolute',
@@ -57,9 +52,4 @@ export const CreateAccount = styled(MyTextButton).attrs({
       borderColor: '#232129',
     },
   },
-  iconProps: {
-    color: '#ff9000',
-  },
-})`
-  color: #ff9000;
-`;
+})``;

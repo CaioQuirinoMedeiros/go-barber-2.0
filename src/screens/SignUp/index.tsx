@@ -1,7 +1,12 @@
-import React, { useRef } from 'react';
+import React, { useRef, useCallback } from 'react';
 import { Image, TextInput } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { FormHandles } from '@unform/core';
+import { Form } from '@unform/mobile';
+import { object, string } from 'yup';
 
 import logo from '../../assets/logo.png';
+import getValidationErrors from '../../utils/getValidationErrors';
 
 import {
   Container,
@@ -9,20 +14,45 @@ import {
   Title,
   Input,
   Button,
-  ForgotPassword,
-  CreateAccount,
+  BackToLogin,
 } from './styles';
 
+const signUpSchema = object().shape({
+  name: string().required('Nome obrigatório'),
+  email: string()
+    .required('E-mail obrigatório')
+    .email('Digite um e-mail válido'),
+  password: string().min(6, 'No mínimo 6 dígitos'),
+});
+
+interface SignupDataForm {
+  name: string;
+  email: string;
+  password: string;
+}
+
 const SignUp: React.FC = () => {
+  const navigation = useNavigation();
+
+  const emailRef = useRef<TextInput>(null);
   const passwordRef = useRef<TextInput>(null);
+  const formRef = useRef<FormHandles>(null);
 
-  function handleForgotPassword(): void {
-    console.log('Opa');
+  function handleLogin(): void {
+    navigation.navigate('Login');
   }
 
-  function handleSignUp(): void {
-    console.log('Opa');
-  }
+  const handleSignUpSubmit = useCallback(async (data: SignupDataForm) => {
+    formRef.current?.setErrors({});
+
+    try {
+      await signUpSchema.validate(data, { abortEarly: false });
+    } catch (err) {
+      const errors = getValidationErrors(err);
+
+      formRef.current?.setErrors(errors);
+    }
+  }, []);
 
   return (
     <>
@@ -30,35 +60,59 @@ const SignUp: React.FC = () => {
         <Scrollable keyboardShouldPersistTaps="handled">
           <Image source={logo} />
 
-          <Title bold>Faça seu logon</Title>
+          <Title bold>Crie sua conta</Title>
 
-          <Input
-            name="email"
-            icon="mail"
-            placeholder="E-mail"
-            blurOnSubmit={false}
-            returnKeyType="next"
-            onSubmitEditing={() => {
-              passwordRef.current && passwordRef.current.focus();
-            }}
-          />
-          <Input
-            name="password"
-            icon="lock"
-            placeholder="Senha"
-            onSubmitEditing={handleForgotPassword}
-            innerRef={passwordRef}
-          />
-          <Button>Entrar</Button>
-
-          <ForgotPassword onPress={handleForgotPassword}>
-            Esqueci minha senha
-          </ForgotPassword>
+          <Form onSubmit={handleSignUpSubmit} ref={formRef}>
+            <Input
+              name="name"
+              icon="user"
+              autoCapitalize="words"
+              placeholder="Nome"
+              blurOnSubmit={false}
+              returnKeyType="next"
+              onSubmitEditing={() => {
+                emailRef.current && emailRef.current.focus();
+              }}
+            />
+            <Input
+              name="email"
+              icon="mail"
+              keyboardType="email-address"
+              autoCorrect={false}
+              autoCapitalize="none"
+              placeholder="E-mail"
+              blurOnSubmit={false}
+              returnKeyType="next"
+              onSubmitEditing={() => {
+                passwordRef.current && passwordRef.current.focus();
+              }}
+              ref={emailRef}
+            />
+            <Input
+              name="password"
+              icon="lock"
+              secureTextEntry
+              placeholder="Senha"
+              textContentType="newPassword"
+              onSubmitEditing={() => {
+                formRef?.current?.submitForm();
+              }}
+              returnKeyType="send"
+              ref={passwordRef}
+            />
+            <Button
+              onPress={() => {
+                formRef?.current?.submitForm();
+              }}
+            >
+              Cadastrar
+            </Button>
+          </Form>
         </Scrollable>
       </Container>
-      <CreateAccount icon="log-in" onPress={handleSignUp}>
-        Criar conta
-      </CreateAccount>
+      <BackToLogin icon="arrow-left" onPress={handleLogin}>
+        Voltar para logon
+      </BackToLogin>
     </>
   );
 };
