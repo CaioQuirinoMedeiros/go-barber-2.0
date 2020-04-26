@@ -1,5 +1,5 @@
-import React, { useRef, useCallback } from 'react';
-import { Image, TextInput } from 'react-native';
+import React, { useRef, useCallback, useState } from 'react';
+import { Image, TextInput, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/mobile';
@@ -7,6 +7,7 @@ import { object, string } from 'yup';
 
 import logo from '../../assets/logo.png';
 import getValidationErrors from '../../utils/getValidationErrors';
+import api from '../../services/api';
 
 import {
   Container,
@@ -34,6 +35,8 @@ interface SignupDataForm {
 const SignUp: React.FC = () => {
   const navigation = useNavigation();
 
+  const [fetching, setFetching] = useState(false);
+
   const emailRef = useRef<TextInput>(null);
   const passwordRef = useRef<TextInput>(null);
   const formRef = useRef<FormHandles>(null);
@@ -42,17 +45,50 @@ const SignUp: React.FC = () => {
     navigation.navigate('Login');
   }
 
-  const handleSignUpSubmit = useCallback(async (data: SignupDataForm) => {
-    formRef.current?.setErrors({});
+  const handleSignUpSubmit = useCallback(
+    async (data: SignupDataForm) => {
+      setFetching(true);
+      formRef.current?.setErrors({});
 
-    try {
-      await signUpSchema.validate(data, { abortEarly: false });
-    } catch (err) {
-      const errors = getValidationErrors(err);
+      try {
+        await signUpSchema.validate(data, { abortEarly: false });
+      } catch (err) {
+        const errors = getValidationErrors(err);
 
-      formRef.current?.setErrors(errors);
-    }
-  }, []);
+        formRef.current?.setErrors(errors);
+      }
+
+      try {
+        await api.post('/users', data);
+
+        Alert.alert(
+          'Cadastro realizado com sucesso!',
+          'Você já pode fazer login na aplicação',
+          [
+            {
+              text: 'Ok',
+              onPress: () => {
+                navigation.navigate('Login');
+              },
+            },
+          ]
+        );
+      } catch (err) {
+        Alert.alert(
+          'Erro ao realiar cadastro',
+          'Não foi possível cadastrar o usuário, tente novamente',
+          [
+            {
+              text: 'Ok',
+            },
+          ]
+        );
+      }
+
+      setFetching(false);
+    },
+    [navigation]
+  );
 
   return (
     <>
@@ -101,6 +137,7 @@ const SignUp: React.FC = () => {
               ref={passwordRef}
             />
             <Button
+              loading={fetching}
               onPress={() => {
                 formRef?.current?.submitForm();
               }}

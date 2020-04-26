@@ -1,5 +1,5 @@
-import React, { useRef, useCallback } from 'react';
-import { Image, TextInput } from 'react-native';
+import React, { useRef, useCallback, useState } from 'react';
+import { Image, TextInput, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
@@ -7,6 +7,7 @@ import { object, string } from 'yup';
 
 import logo from '../../assets/logo.png';
 import getValidationErrors from '../../utils/getValidationErrors';
+import { useAuth } from '../../hooks/auth';
 
 import {
   Container,
@@ -31,31 +32,43 @@ interface LoginFormData {
 }
 
 const Login: React.FC = () => {
+  const { signIn } = useAuth();
   const navigation = useNavigation();
+
+  const [fetching, setFetching] = useState(false);
 
   const passwordRef = useRef<TextInput>(null);
   const formRef = useRef<FormHandles>(null);
 
   function handleForgotPassword(): void {
-    console.log('Opa');
+    setFetching(false);
   }
 
   function handleSignUp(): void {
     navigation.navigate('SignUp');
   }
 
-  const handleLoginSubmit = useCallback(async (data: LoginFormData) => {
-    formRef.current?.setErrors({});
+  const handleLoginSubmit = useCallback(
+    async (data: LoginFormData) => {
+      setFetching(true);
+      formRef.current?.setErrors({});
 
-    try {
-      await loginSchema.validate(data, { abortEarly: false });
-    } catch (err) {
-      const errors = getValidationErrors(err);
-      formRef.current?.setErrors(errors);
-    }
+      try {
+        await loginSchema.validate(data, { abortEarly: false });
+      } catch (err) {
+        const errors = getValidationErrors(err);
+        formRef.current?.setErrors(errors);
+      }
 
-    console.log({ data });
-  }, []);
+      try {
+        await signIn(data);
+      } catch {
+        Alert.alert('Erro ao fazer login', 'Verifique suas credenciais');
+      }
+      setFetching(false);
+    },
+    [signIn]
+  );
 
   return (
     <>
@@ -91,6 +104,7 @@ const Login: React.FC = () => {
               ref={passwordRef}
             />
             <Button
+              loading={fetching}
               onPress={() => {
                 formRef.current?.submitForm();
               }}
