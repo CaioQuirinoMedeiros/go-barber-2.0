@@ -1,12 +1,13 @@
-import { getRepository } from 'typeorm';
 import path from 'path';
 import { promises, exists } from 'fs';
+import { injectable, inject } from 'tsyringe';
 
-import AppError from '../errors/AppError';
-import User from '../models/User';
-import { tmpFolder } from '../config/upload';
+import AppError from '@shared/errors/AppError';
+import User from '@modules/users/infra/typeorm/entities/User';
+import { tmpFolder } from '@config/upload';
+import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
 
-interface Request {
+interface IRequest {
   user_id: string;
   avatarFileName: string;
 }
@@ -16,13 +17,18 @@ const existsAsync = (filePath: string): Promise<boolean> =>
     return exists(filePath, resolve);
   });
 
+@injectable()
 class UpdateUserAvatarService {
-  public async execute(request: Request): Promise<User> {
+  private usersRepository: UsersRepository;
+
+  constructor(@inject('UsersRepository') usersRepository: UsersRepository) {
+    this.usersRepository = usersRepository;
+  }
+
+  public async execute(request: IRequest): Promise<User> {
     const { user_id, avatarFileName } = request;
 
-    const usersRepositories = getRepository(User);
-
-    const user = await usersRepositories.findOne(user_id);
+    const user = await this.usersRepository.findById(user_id);
 
     if (!user) {
       throw new AppError('User not found', 404);
@@ -39,7 +45,7 @@ class UpdateUserAvatarService {
 
     user.avatar = avatarFileName;
 
-    await usersRepositories.save(user);
+    await this.usersRepository.save(user);
 
     return user;
   }
