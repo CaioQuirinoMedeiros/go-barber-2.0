@@ -42,7 +42,7 @@ describe('CreateUser', () => {
       fakeHashProvider,
     );
 
-    expect(
+    await expect(
       createUserService.execute({
         name: `${name}_2`,
         email,
