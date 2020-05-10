@@ -4,7 +4,7 @@ import 'express-async-errors';
 import 'reflect-metadata';
 
 import routes from '@shared/infra/http/routes';
-import { tmpFolder } from '@config/upload';
+import { uploadsFolder } from '@config/upload';
 import AppError from '@shared/errors/AppError';
 
 import '@shared/infra/typeorm';
@@ -15,7 +15,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(routes);
-app.use('/files', express.static(tmpFolder));
+app.use('/files', express.static(uploadsFolder));
 
 routes.use(
   (error: Error, request: Request, response: Response, _: NextFunction) => {
