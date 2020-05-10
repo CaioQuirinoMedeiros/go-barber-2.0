@@ -25,6 +25,7 @@
   ],
   "rules": {
     "no-console": "off",
+    "no-useless-constructor": "off",
     "@typescript-eslint/interface-name-prefix": [
       "error",
       {
