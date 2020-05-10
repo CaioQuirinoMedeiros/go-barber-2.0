@@ -4,16 +4,28 @@ import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHa
 import AuthenticateUserService from './AuthenticateUserService';
 import CreateUserService from './CreateUserService';
 
-describe('AuthenticateUser', () => {
-  it('should be able to authenticate', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const fakeHashProvider = new FakeHashProvider();
+let fakeUsersRepository: FakeUsersRepository;
+let fakeHashProvider: FakeHashProvider;
+let createUserService: CreateUserService;
+let authenticateUserService: AuthenticateUserService;
 
-    const createUserService = new CreateUserService(
+describe('AuthenticateUser', () => {
+  beforeEach(() => {
+    fakeUsersRepository = new FakeUsersRepository();
+    fakeHashProvider = new FakeHashProvider();
+
+    createUserService = new CreateUserService(
       fakeUsersRepository,
       fakeHashProvider,
     );
 
+    authenticateUserService = new AuthenticateUserService(
+      fakeUsersRepository,
+      fakeHashProvider,
+    );
+  });
+
+  it('should be able to authenticate', async () => {
     const name = 'John Doe';
     const email = 'johndoe@example.com';
     const password = '123456';
@@ -23,11 +35,6 @@ describe('AuthenticateUser', () => {
       email,
       password,
     });
-
-    const authenticateUserService = new AuthenticateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
 
     const response = await authenticateUserService.execute({
       email,
@@ -40,16 +47,8 @@ describe('AuthenticateUser', () => {
   });
 
   it('should not be able to authenticate inexistent user', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const fakeHashProvider = new FakeHashProvider();
-
     const email = 'johndoe@example.com';
     const password = '123456';
-
-    const authenticateUserService = new AuthenticateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
 
     await expect(
       authenticateUserService.execute({
@@ -60,14 +59,6 @@ describe('AuthenticateUser', () => {
   });
 
   it('should not be able to authenticate with invalid password', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const fakeHashProvider = new FakeHashProvider();
-
-    const createUserService = new CreateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
-
     const name = 'Trevis';
     const email = 'trevis@example.com';
     const password = '123456';
@@ -77,11 +68,6 @@ describe('AuthenticateUser', () => {
       email,
       password,
     });
-
-    const authenticateUserService = new AuthenticateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
 
     await expect(
       authenticateUserService.execute({
