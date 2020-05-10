@@ -12,6 +12,8 @@ export default class ForgotPasswordController {
 
     const user = await showProfile.execute({ user_id });
 
+    delete user.password;
+
     return response.status(200).send(user);
   }
 
@@ -28,6 +30,8 @@ export default class ForgotPasswordController {
       oldPassword,
       user_id,
     });
+
+    delete user.password;
 
     return response.status(200).send(user);
   }

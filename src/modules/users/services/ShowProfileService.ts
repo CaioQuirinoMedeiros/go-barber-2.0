@@ -15,7 +15,7 @@ class ShowProfileService {
     private usersRepository: IUserRepository,
   ) {}
 
-  public async execute(request: IRequest): Promise<User | undefined> {
+  public async execute(request: IRequest): Promise<User> {
     const { user_id } = request;
 
     const user = await this.usersRepository.findById(user_id);
