@@ -37,7 +37,6 @@ class UpdateProfileService {
         email,
       );
 
-      console.log({ email, emailALready: user.email, userWithUpdatedEmail });
       if (userWithUpdatedEmail) {
         throw new AppError('E-mail already in use');
       }
