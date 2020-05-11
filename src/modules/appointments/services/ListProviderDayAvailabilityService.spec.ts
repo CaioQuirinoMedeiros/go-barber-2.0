@@ -1,30 +1,30 @@
-// import AppError from '@shared/errors/AppError';
-// import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import FakeAppointmentsRepository from '@modules/appointments/repositories/fakes/FakeAppointmentsRepository';
 import ListProviderDayAvailabilityService from './ListProviderDayAvailabilityService';
 
-// let fakeUsersRepository: FakeUsersRepository;
 let fakeAppointmentsRepository: FakeAppointmentsRepository;
 let listProviderDayAvailabilityService: ListProviderDayAvailabilityService;
 
 describe('ListProviderDayAvailability', () => {
   beforeEach(() => {
-    // fakeUsersRepository = new FakeUsersRepository();
     fakeAppointmentsRepository = new FakeAppointmentsRepository();
     listProviderDayAvailabilityService = new ListProviderDayAvailabilityService(
       fakeAppointmentsRepository,
     );
   });
 
-  it('should be able to list providers', async () => {
+  it('should be able to list day availability from provider', async () => {
+    const provider_id = 'any_provider_id';
+
     const appointmentsToCreate = [
       {
-        date: new Date(2020, 4, 10, 8, 0, 0),
-        provider_id: 'anything',
+        date: new Date(2020, 4, 10, 9, 0, 0),
+        provider_id,
+        user_id: 'any_user_id',
       },
       {
-        date: new Date(2020, 4, 10, 10, 0, 0),
-        provider_id: 'anything',
+        date: new Date(2020, 4, 10, 13, 0, 0),
+        provider_id,
+        user_id: 'any_user_id',
       },
     ];
 
@@ -34,11 +34,15 @@ describe('ListProviderDayAvailability', () => {
       }),
     );
 
+    jest.spyOn(Date, 'now').mockImplementation(() => {
+      return new Date(2020, 4, 10, 11, 30).getTime();
+    });
+
     const dayAvailability = await listProviderDayAvailabilityService.execute({
       day: 10,
       month: 5,
       year: 2020,
-      provider_id: 'anything',
+      provider_id,
     });
 
     const expectedResultToContain = [
@@ -48,7 +52,7 @@ describe('ListProviderDayAvailability', () => {
       },
       {
         hour: 9,
-        available: true,
+        available: false,
       },
       {
         hour: 10,
@@ -56,11 +60,21 @@ describe('ListProviderDayAvailability', () => {
       },
       {
         hour: 11,
+        available: false,
+      },
+      {
+        hour: 12,
+        available: true,
+      },
+      {
+        hour: 13,
+        available: false,
+      },
+      {
+        hour: 14,
         available: true,
       },
     ];
-
-    console.log({ monthAvailabilty: dayAvailability, expectedResultToContain });
 
     expect(dayAvailability).toEqual(
       expect.arrayContaining(expectedResultToContain),

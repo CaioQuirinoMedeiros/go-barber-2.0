@@ -16,47 +16,58 @@ describe('ListProviderMonthAvailability', () => {
     const appointmentsToCreate = [
       {
         date: new Date(2020, 4, 10, 8, 0, 0),
-        provider_id: 'anything',
+        provider_id: 'any_provider_id',
+        user_id: 'anything',
       },
       {
         date: new Date(2020, 4, 10, 9, 0, 0),
-        provider_id: 'anything',
+        provider_id: 'any_provider_id',
+        user_id: 'anything',
       },
       {
         date: new Date(2020, 4, 10, 10, 0, 0),
-        provider_id: 'anything',
+        provider_id: 'any_provider_id',
+        user_id: 'any_user_id',
       },
       {
         date: new Date(2020, 4, 10, 11, 0, 0),
-        provider_id: 'anything',
+        provider_id: 'any_provider_id',
+        user_id: 'any_user_id',
       },
       {
         date: new Date(2020, 4, 10, 12, 0, 0),
-        provider_id: 'anything',
+        provider_id: 'any_provider_id',
+        user_id: 'any_user_id',
       },
       {
         date: new Date(2020, 4, 10, 14, 0, 0),
-        provider_id: 'anything',
+        provider_id: 'any_provider_id',
+        user_id: 'any_user_id',
       },
       {
         date: new Date(2020, 4, 10, 14, 0, 0),
-        provider_id: 'anything',
+        provider_id: 'any_provider_id',
+        user_id: 'any_user_id',
       },
       {
         date: new Date(2020, 4, 10, 15, 0, 0),
-        provider_id: 'anything',
+        provider_id: 'any_provider_id',
+        user_id: 'any_user_id',
       },
       {
         date: new Date(2020, 4, 10, 16, 0, 0),
-        provider_id: 'anything',
+        provider_id: 'any_provider_id',
+        user_id: 'any_user_id',
       },
       {
         date: new Date(2020, 4, 10, 17, 0, 0),
-        provider_id: 'anything',
+        provider_id: 'any_provider_id',
+        user_id: 'any_user_id',
       },
       {
         date: new Date(2020, 4, 12, 10, 0, 0),
-        provider_id: 'anything',
+        provider_id: 'any_provider_id',
+        user_id: 'anything',
       },
     ];
 
@@ -70,7 +81,7 @@ describe('ListProviderMonthAvailability', () => {
       {
         month: 5,
         year: 2020,
-        provider_id: 'anything',
+        provider_id: 'any_provider_id',
       },
     );
 

@@ -46,8 +46,6 @@ class ListProviderMonthAvailabilityService {
       return { day, available: appointmentsInDay.length < 10 };
     });
 
-    console.log({ provider_id, month, year, appointments, availability });
-
     return availability;
   }
 }
