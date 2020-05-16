@@ -6,3 +6,5 @@ tmp/uploads/*
 !tmp/uploads/.gitkeep
 build
 coverage
+.env
+ormconfig.json

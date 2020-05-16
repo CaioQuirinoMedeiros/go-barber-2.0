@@ -23,11 +23,14 @@ export default function ensureAuthenticated(
 
   const [, token] = authHeader.split(' ');
 
-  const decodedToken = verify(token, authConfig.jwt.secret);
+  try {
+    const decodedToken = verify(token, authConfig.jwt.secret);
+    const { sub } = decodedToken as ITokenPayload;
 
-  const { sub } = decodedToken as ITokenPayload;
-
-  request.user_id = sub;
+    request.user_id = sub;
+  } catch {
+    throw new AppError('Token inválido', 401);
+  }
 
   return next();
 }

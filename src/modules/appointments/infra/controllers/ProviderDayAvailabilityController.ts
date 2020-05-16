@@ -12,8 +12,6 @@ export default class ProviderDayAvailabilityController {
       ListProviderDayAvailabilityService,
     );
 
-    console.log('Ou');
-
     const providers = await listProviderDayAvailabilityService.execute({
       provider_id,
       month,

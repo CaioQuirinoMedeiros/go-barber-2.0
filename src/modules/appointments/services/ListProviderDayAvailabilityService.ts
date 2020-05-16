@@ -39,11 +39,8 @@ class ListProviderDayAvailabilityService {
       (element, index) => index + hourStart,
     );
 
-    console.log({ provider_id, day, month, year, appointments });
     const availability = hoursArray.map(hour => {
-      console.log({ hour });
       const hasAppointmentInHour = appointments.find(appointment => {
-        console.log({ hour: getHours(appointment.date), thisHour: hour });
         return getHours(appointment.date) === hour;
       });
 
