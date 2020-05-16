@@ -43,6 +43,7 @@ class UsersRepository implements IUserRepository {
       where: {
         id: Not(data.except_user_id),
       },
+      select: ['id', 'email', 'name', 'created_at', 'updated_at', 'avatar'],
     });
 
     return users;

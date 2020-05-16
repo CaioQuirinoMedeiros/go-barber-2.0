@@ -19,13 +19,13 @@ class AppointmentsRepository implements IAppointmentsRepository {
   ): Promise<Appointment[]> {
     const { provider_id, day, month, year } = data;
 
+    const startDate = startOfDay(new Date(year, month - 1, day));
+    const endDate = endOfDay(new Date(year, month - 1, day));
+
     const appointments = await this.ormRepository.find({
       where: {
         provider_id,
-        date: Between(
-          startOfDay(new Date(year, month, day)),
-          endOfDay(new Date(year, month, day)),
-        ),
+        date: Between(startDate, endDate),
       },
     });
 
