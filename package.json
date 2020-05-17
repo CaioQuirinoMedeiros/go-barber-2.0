@@ -11,10 +11,12 @@
     "test": "jest"
   },
   "dependencies": {
+    "@sendgrid/mail": "^7.1.1",
     "@types/cors": "^2.8.6",
     "@types/jsonwebtoken": "^8.3.9",
     "@types/mongodb": "^3.5.17",
     "@types/multer": "^1.4.3",
+    "aws-sdk": "^2.678.0",
     "bcryptjs": "^2.4.3",
     "celebrate": "^12.1.1",
     "class-transformer": "^0.2.3",
@@ -25,6 +27,7 @@
     "express-async-errors": "^3.1.1",
     "handlebars": "^4.7.6",
     "jsonwebtoken": "^8.5.1",
+    "mime": "^2.4.5",
     "mongodb": "^3.5.7",
     "multer": "^1.4.2",
     "nodemailer": "^6.4.6",

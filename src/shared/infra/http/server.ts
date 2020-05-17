@@ -6,7 +6,7 @@ import 'reflect-metadata';
 import 'dotenv/config';
 
 import routes from '@shared/infra/http/routes';
-import { uploadsFolder } from '@config/upload';
+import uploadConfig from '@config/upload';
 import AppError from '@shared/errors/AppError';
 
 import '@shared/infra/typeorm';
@@ -17,7 +17,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(routes);
-app.use('/files', express.static(uploadsFolder));
+app.use('/files', express.static(uploadConfig.uploadsFolder));
 app.use(errors());
 
 app.use(

@@ -6,10 +6,17 @@
     "strictPropertyInitialization": false,
     "baseUrl": "./src",
     "allowJs": true,
+    "target": "es5",
     "paths": {
-      "@modules/*": ["modules/*"],
-      "@config/*": ["config/*"],
-      "@shared/*": ["shared/*"]
+      "@modules/*": [
+        "modules/*"
+      ],
+      "@config/*": [
+        "config/*"
+      ],
+      "@shared/*": [
+        "shared/*"
+      ]
     },
     "esModuleInterop": true,
     "experimentalDecorators": true,
