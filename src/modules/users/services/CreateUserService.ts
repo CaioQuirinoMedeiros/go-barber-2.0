@@ -4,6 +4,7 @@ import AppError from '@shared/errors/AppError';
 import User from '@modules/users/infra/typeorm/entities/User';
 import IUserRepository from '@modules/users/repositories/IUserRepository';
 import IHashProvider from '@modules/users/providers/HashProvider/models/IHashProvider';
+import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 
 interface IRequest {
   name: string;
@@ -13,16 +14,15 @@ interface IRequest {
 
 @injectable()
 class CreateUserService {
-  private usersRepository: IUserRepository;
-
-  private hashProvider: IHashProvider;
-
   constructor(
     @inject('UsersRepository')
-    usersRepository: IUserRepository,
+    private usersRepository: IUserRepository,
 
     @inject('HashProvider')
-    hashProvider: IHashProvider,
+    private hashProvider: IHashProvider,
+
+    @inject('CacheProvider')
+    private cacheProvider: ICacheProvider,
   ) {
     this.usersRepository = usersRepository;
     this.hashProvider = hashProvider;
@@ -44,6 +44,8 @@ class CreateUserService {
       email,
       password: hashedPassword,
     });
+
+    await this.cacheProvider.invalidatePrefix('providers-list');
 
     return user;
   }

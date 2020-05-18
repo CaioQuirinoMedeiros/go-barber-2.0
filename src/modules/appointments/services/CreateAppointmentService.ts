@@ -5,6 +5,7 @@ import AppError from '@shared/errors/AppError';
 import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
 import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository';
+import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 
 interface IRequest {
   date: Date;
@@ -20,12 +21,16 @@ class CreateAppointmentService {
 
     @inject('NotificationsRepository')
     public notificationsRepository: INotificationsRepository,
+    @inject('CacheProvider')
+    public cacheProvider: ICacheProvider,
   ) {
     this.appointmentsRepository = appointmentsRepository;
   }
 
   public async execute(request: IRequest): Promise<Appointment> {
     const { date, provider_id, user_id } = request;
+
+    console.log('date ---->', date);
 
     const appointmentDate = startOfHour(date);
 
@@ -56,6 +61,13 @@ class CreateAppointmentService {
       date: appointmentDate,
       user_id,
     });
+
+    await this.cacheProvider.invalidate(
+      `provider-appointments:${provider_id}:${format(
+        appointmentDate,
+        'yyyy-M-d',
+      )}`,
+    );
 
     const dateFormatted = format(appointmentDate, "dd/MM/yyyy 'às' HH:mm'h'");
 
