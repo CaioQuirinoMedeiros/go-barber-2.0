@@ -1,11 +1,10 @@
 import React, { useCallback, useRef } from 'react';
-import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { FiLock } from 'react-icons/fi';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
-import { object, string } from 'yup';
+import { object, string, ref } from 'yup';
 
-import { useAuth } from '../../hooks/auth';
 import { useToast } from '../../hooks/toast';
 import logo from '../../assets/logo.svg';
 import Input from '../../components/Input';
@@ -14,31 +13,35 @@ import getValidationErrors from '../../utils/getValidationErrors';
 import getToastErrors from '../../utils/getToastErrors';
 
 import { Container, Content, Background } from './styles';
+import api from '../../services/api';
 
-const loginSchema = object().shape({
-  email: string()
-    .required('E-mail obrigatório')
-    .email('Digite um e-mail válido'),
+const resetPasswordSchema = object().shape({
   password: string().required('Senha obrigatória'),
+  password_confirmation: string().oneOf(
+    [ref('password'), null],
+    'Confirmação incorreta'
+  ),
 });
 
-interface LoginFormData {
-  email: string;
+interface ResetPasswordFormData {
   password: string;
+  password_confirmation: string;
 }
 
 const Login: React.FC = () => {
-  const { signIn } = useAuth();
   const { addToast } = useToast();
 
   const formRef = useRef<FormHandles>(null);
 
+  const history = useHistory();
+  const location = useLocation();
+
   const handleLoginSubmit = useCallback(
-    async (data: LoginFormData) => {
+    async (data: ResetPasswordFormData) => {
       formRef.current?.setErrors({});
 
       try {
-        await loginSchema.validate(data, { abortEarly: false });
+        await resetPasswordSchema.validate(data, { abortEarly: false });
       } catch (err) {
         const errors = getValidationErrors(err);
         formRef.current?.setErrors(errors);
@@ -52,21 +55,33 @@ const Login: React.FC = () => {
       }
 
       try {
-        await signIn(data);
+        const { password, password_confirmation } = data;
+        const token = location.search.replace('?token=', '');
+
+        if (!token) {
+          throw new Error();
+        }
+
+        await api.post('password/reset', {
+          password,
+          password_confirmation,
+          token,
+        });
+
+        history.push('/');
         addToast({
-          title: 'Bem-vindo',
+          title: 'Senha resetada com sucesso!',
           type: 'success',
         });
       } catch (err) {
         addToast({
-          title: 'Erro ao realizar login',
-          description:
-            'Não foi possível fazer login, verifique suas credenciais',
+          title: 'Erro ao resetar senha',
+          description: 'Ocorreu um erro ao resetar sua senha, tente novamente',
           type: 'error',
         });
       }
     },
-    [signIn, addToast]
+    [addToast, history, location]
   );
 
   return (
@@ -74,23 +89,21 @@ const Login: React.FC = () => {
       <Content>
         <img src={logo} alt="go barber logo" />
         <Form onSubmit={handleLoginSubmit} ref={formRef}>
-          <h1>Faça seu logon</h1>
-          <Input placeholder="E-mail" name="email" icon={FiMail} />
+          <h1>Resetar senha</h1>
           <Input
-            placeholder="Senha"
+            placeholder="Nova Senha"
             type="password"
             name="password"
             icon={FiLock}
           />
-          <Button type="submit">Entrar</Button>
-
-          <Link to="/forgot-password">Esqueci minha senha</Link>
+          <Input
+            placeholder="Confirmação de Senha"
+            type="password"
+            name="password_confirmation"
+            icon={FiLock}
+          />
+          <Button type="submit">Alterar senha</Button>
         </Form>
-
-        <Link to="/signup">
-          <FiLogIn />
-          Criar conta
-        </Link>
       </Content>
       <Background />
     </Container>

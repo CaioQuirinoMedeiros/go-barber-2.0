@@ -1,11 +1,10 @@
-import React, { useCallback, useRef } from 'react';
-import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
+import React, { useCallback, useRef, useState } from 'react';
+import { FiLogIn, FiMail } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import { object, string } from 'yup';
 
-import { useAuth } from '../../hooks/auth';
 import { useToast } from '../../hooks/toast';
 import logo from '../../assets/logo.svg';
 import Input from '../../components/Input';
@@ -14,31 +13,32 @@ import getValidationErrors from '../../utils/getValidationErrors';
 import getToastErrors from '../../utils/getToastErrors';
 
 import { Container, Content, Background } from './styles';
+import api from '../../services/api';
 
-const loginSchema = object().shape({
+const forgorPasswordSchema = object().shape({
   email: string()
     .required('E-mail obrigatório')
     .email('Digite um e-mail válido'),
-  password: string().required('Senha obrigatória'),
 });
 
-interface LoginFormData {
+interface ForgotPasswordFormData {
   email: string;
-  password: string;
 }
 
-const Login: React.FC = () => {
-  const { signIn } = useAuth();
+const ForgotPassword: React.FC = () => {
   const { addToast } = useToast();
+
+  const [loading, setLoading] = useState(false);
 
   const formRef = useRef<FormHandles>(null);
 
   const handleLoginSubmit = useCallback(
-    async (data: LoginFormData) => {
+    async (data: ForgotPasswordFormData) => {
       formRef.current?.setErrors({});
+      setLoading(true);
 
       try {
-        await loginSchema.validate(data, { abortEarly: false });
+        await forgorPasswordSchema.validate(data, { abortEarly: false });
       } catch (err) {
         const errors = getValidationErrors(err);
         formRef.current?.setErrors(errors);
@@ -52,21 +52,25 @@ const Login: React.FC = () => {
       }
 
       try {
-        await signIn(data);
+        await api.post('/password/forgot', { email: data.email });
+
         addToast({
-          title: 'Bem-vindo',
+          title: 'Email de recuperação enviado',
+          description:
+            'Enviamos um e-mail para confirmar a recuperação de senha, cheque a sua caixa de entrada',
           type: 'success',
         });
       } catch (err) {
         addToast({
-          title: 'Erro ao realizar login',
+          title: 'Erro na recuperação de senha',
           description:
-            'Não foi possível fazer login, verifique suas credenciais',
+            'Ocorreu um erro ao tentar realizar a recuperação de senha',
           type: 'error',
         });
       }
+      setLoading(false);
     },
-    [signIn, addToast]
+    [addToast]
   );
 
   return (
@@ -74,22 +78,17 @@ const Login: React.FC = () => {
       <Content>
         <img src={logo} alt="go barber logo" />
         <Form onSubmit={handleLoginSubmit} ref={formRef}>
-          <h1>Faça seu logon</h1>
+          <h1>Recuperar senha</h1>
           <Input placeholder="E-mail" name="email" icon={FiMail} />
-          <Input
-            placeholder="Senha"
-            type="password"
-            name="password"
-            icon={FiLock}
-          />
-          <Button type="submit">Entrar</Button>
 
-          <Link to="/forgot-password">Esqueci minha senha</Link>
+          <Button type="submit" loading={loading}>
+            Recuperar
+          </Button>
         </Form>
 
-        <Link to="/signup">
+        <Link to="/">
           <FiLogIn />
-          Criar conta
+          Voltar ao login
         </Link>
       </Content>
       <Background />
@@ -97,4 +96,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default ForgotPassword;

@@ -33,7 +33,7 @@ const SignUp: React.FC = () => {
   const { signUp } = useAuth();
   const { addToast } = useToast();
 
-  const { push } = useHistory();
+  const history = useHistory();
 
   const formRef = useRef<FormHandles>(null);
 
@@ -66,7 +66,7 @@ const SignUp: React.FC = () => {
           type: 'success',
         });
 
-        push('/');
+        history.push('/');
       } catch (err) {
         addToast({
           title: `Erro ao se cadastrar`,
@@ -75,7 +75,7 @@ const SignUp: React.FC = () => {
         });
       }
     },
-    [signUp, addToast, push]
+    [signUp, addToast, history]
   );
 
   return (
