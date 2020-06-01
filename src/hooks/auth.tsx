@@ -4,9 +4,7 @@ import api from '../services/api';
 import { TOKEN_KEY, USER_KEY } from '../constants/auth';
 
 interface AuthContextData {
-  user: {
-    name: string;
-  };
+  user: AuthState['user'];
   signIn(credentials: { email: string; password: string }): Promise<void>;
   signUp(credentials: {
     name: string;
@@ -19,7 +17,9 @@ interface AuthContextData {
 interface LoginResponse {
   token: string;
   user: {
+    id: string;
     name: string;
+    avatar_url: string;
   };
 }
 
@@ -28,7 +28,9 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 interface AuthState {
   token: string;
   user: {
+    id: string;
     name: string;
+    avatar_url: string;
   };
 }
 
@@ -38,6 +40,7 @@ const AuthProvider: React.FC = ({ children }) => {
     const userStorage = localStorage.getItem(USER_KEY);
 
     if (tokenStorage && userStorage) {
+      api.defaults.headers.authorization = `Bearer ${tokenStorage}`;
       return { token: tokenStorage, user: JSON.parse(userStorage) };
     }
 
@@ -53,6 +56,8 @@ const AuthProvider: React.FC = ({ children }) => {
     });
 
     const { token, user } = response.data;
+
+    api.defaults.headers.authorization = `Bearer ${token}`;
 
     localStorage.setItem(TOKEN_KEY, token);
     localStorage.setItem(USER_KEY, JSON.stringify(user));
