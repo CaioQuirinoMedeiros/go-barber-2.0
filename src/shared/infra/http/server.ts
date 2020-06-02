@@ -7,6 +7,7 @@ import 'dotenv/config';
 
 import routes from '@shared/infra/http/routes';
 import uploadConfig from '@config/upload';
+import rateLimiter from '@shared/infra/http/middlewares/rateLimiter';
 import AppError from '@shared/errors/AppError';
 
 import '@shared/infra/typeorm';
@@ -16,8 +17,9 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
-app.use(routes);
 app.use('/files', express.static(uploadConfig.uploadsFolder));
+app.use(rateLimiter);
+app.use(routes);
 app.use(errors());
 
 app.use(

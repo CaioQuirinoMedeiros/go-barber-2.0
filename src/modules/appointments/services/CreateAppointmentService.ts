@@ -30,8 +30,6 @@ class CreateAppointmentService {
   public async execute(request: IRequest): Promise<Appointment> {
     const { date, provider_id, user_id } = request;
 
-    console.log('date ---->', date);
-
     const appointmentDate = startOfHour(date);
 
     if (isBefore(appointmentDate, Date.now())) {
@@ -50,6 +48,7 @@ class CreateAppointmentService {
 
     const findAppointmentInSameDate = await this.appointmentsRepository.findByDate(
       appointmentDate,
+      provider_id,
     );
 
     if (findAppointmentInSameDate) {

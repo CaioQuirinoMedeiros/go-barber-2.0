@@ -72,7 +72,7 @@ describe('UpdateProfile', () => {
       name,
       email,
       password: updatedPassword,
-      oldPassword: password,
+      old_password: password,
     });
 
     expect(updatedUser?.password).toBe(updatedPassword);
@@ -125,7 +125,7 @@ describe('UpdateProfile', () => {
         name,
         email,
         password: updatedPassword,
-        oldPassword: `${updatedPassword}_incorrect`,
+        old_password: `${updatedPassword}_incorrect`,
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

@@ -17,7 +17,7 @@ export default class ForgotPasswordController {
   }
 
   async update(request: Request, response: Response): Promise<Response> {
-    const { name, email, password, oldPassword } = request.body;
+    const { name, email, password, old_password } = request.body;
     const { user_id } = request;
 
     const updateProfile = container.resolve(UpdateProfileService);
@@ -26,7 +26,7 @@ export default class ForgotPasswordController {
       name,
       email,
       password,
-      oldPassword,
+      old_password,
       user_id,
     });
 

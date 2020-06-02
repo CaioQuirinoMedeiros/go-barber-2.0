@@ -10,7 +10,7 @@ interface IRequest {
   name: string;
   email: string;
   password?: string;
-  oldPassword?: string;
+  old_password?: string;
 }
 
 @injectable()
@@ -24,7 +24,7 @@ class UpdateProfileService {
   ) {}
 
   public async execute(request: IRequest): Promise<User> {
-    const { user_id, name, email, password, oldPassword } = request;
+    const { user_id, name, email, password, old_password } = request;
 
     const user = await this.usersRepository.findById(user_id);
 
@@ -46,12 +46,12 @@ class UpdateProfileService {
     user.email = email;
 
     if (password) {
-      if (!oldPassword) {
+      if (!old_password) {
         throw new AppError('You should inform your actual password');
       }
 
       const passwordMatch = await this.hashProvider.compareHash(
-        oldPassword,
+        old_password,
         user.password,
       );
 
