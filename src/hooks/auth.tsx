@@ -12,6 +12,7 @@ interface AuthContextData {
     password: string;
   }): Promise<void>;
   signOut(): void;
+  updateUser(user: AuthState['user']): void;
 }
 
 interface LoginResponse {
@@ -20,6 +21,7 @@ interface LoginResponse {
     id: string;
     name: string;
     avatar_url: string;
+    email: string;
   };
 }
 
@@ -31,6 +33,7 @@ interface AuthState {
     id: string;
     name: string;
     avatar_url: string;
+    email: string;
   };
 }
 
@@ -76,8 +79,16 @@ const AuthProvider: React.FC = ({ children }) => {
     setData({} as AuthState);
   }, []);
 
+  const updateUser = useCallback((user: AuthState['user']) => {
+    setData(oldData => ({ token: oldData.token, user }));
+
+    localStorage.setItem(USER_KEY, JSON.stringify(user));
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ user: data.user, signIn, signUp, signOut }}>
+    <AuthContext.Provider
+      value={{ user: data.user, signIn, signUp, signOut, updateUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

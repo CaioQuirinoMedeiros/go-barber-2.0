@@ -14,9 +14,15 @@ import { Container, Error } from './styles';
 interface InputPorps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   icon: React.ComponentType<IconBaseProps>;
+  containerStyle?: object;
 }
 
-const Input: React.FC<InputPorps> = ({ name, icon: Icon, ...rest }) => {
+const Input: React.FC<InputPorps> = ({
+  name,
+  icon: Icon,
+  containerStyle,
+  ...rest
+}) => {
   const [focused, setFocused] = useState(false);
   const [filled, setFilled] = useState(false);
 
@@ -43,7 +49,12 @@ const Input: React.FC<InputPorps> = ({ name, icon: Icon, ...rest }) => {
   }, []);
 
   return (
-    <Container focused={focused} filled={filled} error={!!error}>
+    <Container
+      focused={focused}
+      filled={filled}
+      error={!!error}
+      style={containerStyle}
+    >
       {!!Icon && <Icon size={20} />}
       <input
         ref={inputRef}
