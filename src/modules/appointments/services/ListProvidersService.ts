@@ -1,4 +1,5 @@
 import { injectable, inject } from 'tsyringe';
+import { classToClass } from 'class-transformer';
 
 import User from '@modules/users/infra/typeorm/entities/User';
 import IUserRepository from '@modules/users/repositories/IUserRepository';
@@ -29,9 +30,8 @@ class ListProvidersService {
       users = await this.usersRepository.findAllProviders({
         except_user_id: user_id,
       });
-      console.log('Query feita');
 
-      await this.cacheProvider.save(cacheKey, users);
+      await this.cacheProvider.save(cacheKey, classToClass(users));
     }
 
     return users;
