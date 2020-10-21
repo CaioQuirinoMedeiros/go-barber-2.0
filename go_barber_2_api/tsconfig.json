@@ -4,23 +4,30 @@
     "rootDir": "./src",
     "strict": true,
     "strictPropertyInitialization": false,
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "allowJs": true,
     "target": "es5",
     "paths": {
       "@modules/*": [
-        "modules/*"
+        "src/modules/*"
       ],
       "@config/*": [
-        "config/*"
+        "src/config/*"
       ],
       "@shared/*": [
-        "shared/*"
+        "src/shared/*"
       ]
     },
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "forceConsistentCasingInFileNames": true
-  }
+    "forceConsistentCasingInFileNames": true,
+    "types": [
+      "./src/@types/express",
+      "./node_modules/@types/jest"
+    ],
+  },
+  "include": [
+    "src/**/*"
+  ]
 }

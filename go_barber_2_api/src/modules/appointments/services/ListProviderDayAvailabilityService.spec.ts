@@ -1,15 +1,33 @@
 import FakeAppointmentsRepository from '@modules/appointments/repositories/fakes/FakeAppointmentsRepository';
+import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
+import AppError from '@shared/errors/AppError';
 import ListProviderDayAvailabilityService from './ListProviderDayAvailabilityService';
 
 let fakeAppointmentsRepository: FakeAppointmentsRepository;
 let listProviderDayAvailabilityService: ListProviderDayAvailabilityService;
+let fakeUsersRepository: FakeUsersRepository;
 
 describe('ListProviderDayAvailability', () => {
   beforeEach(() => {
     fakeAppointmentsRepository = new FakeAppointmentsRepository();
+    fakeUsersRepository = new FakeUsersRepository();
     listProviderDayAvailabilityService = new ListProviderDayAvailabilityService(
       fakeAppointmentsRepository,
+      fakeUsersRepository,
     );
+  });
+
+  it('should not be able to list day availability from inexistent provider', async () => {
+    const provider_id = 'any_provider_id';
+
+    await expect(
+      listProviderDayAvailabilityService.execute({
+        day: 10,
+        month: 5,
+        year: 2020,
+        provider_id,
+      }),
+    ).rejects.toBeInstanceOf(AppError);
   });
 
   it('should be able to list day availability from provider', async () => {

@@ -1,10 +1,9 @@
 import { injectable, inject } from 'tsyringe';
 import { getHours, isAfter } from 'date-fns';
 
-// import User from '@modules/users/infra/typeorm/entities/User';
-// import IUserRepository from '@modules/users/repositories/IUserRepository';
-// import IFindAllInMonthFromProviderDTO from '@modules/appointments/dtos/IFindAllInMonthFromProviderDTO';
+import IUsersRepository from '@modules/users/repositories/IUserRepository';
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
+import AppError from '@shared/errors/AppError';
 
 interface IRequest {
   provider_id: string;
@@ -23,10 +22,18 @@ class ListProviderDayAvailabilityService {
   constructor(
     @inject('AppointmentsRepository')
     private appointmentsRepository: IAppointmentsRepository,
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
   ) {}
 
   public async execute(request: IRequest): Promise<IResponse> {
     const { provider_id, day, month, year } = request;
+
+    const user = await this.usersRepository.findById(provider_id)
+
+    if (!user) {
+      throw new AppError('Provider not found')
+    }
 
     const appointments = await this.appointmentsRepository.findAllInDayFromProvider(
       { provider_id, day, month, year },
