@@ -10,10 +10,18 @@ import AsyncStorage from '@react-native-community/async-storage';
 import api from '../services/api';
 import { TOKEN_KEY, USER_KEY } from '../constants/auth';
 
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  avatar: string | null;
+  created_at: string;
+  updated_at: string;
+  avatar_url: string | null;
+}
+
 interface AuthContextData {
-  user: {
-    name: string;
-  };
+  user: User;
   signIn(credentials: { email: string; password: string }): Promise<void>;
   signUp(credentials: {
     name: string;
@@ -24,20 +32,11 @@ interface AuthContextData {
   loading: boolean;
 }
 
-interface LoginResponse {
-  token: string;
-  user: {
-    name: string;
-  };
-}
-
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 interface AuthState {
   token: string;
-  user: {
-    name: string;
-  };
+  user: User;
 }
 
 const AuthProvider: React.FC = ({ children }) => {
@@ -52,6 +51,7 @@ const AuthProvider: React.FC = ({ children }) => {
       ]);
 
       if (tokenStorage[1] && userStorage[1]) {
+        api.setToken(tokenStorage[1]);
         setData({ token: tokenStorage[1], user: JSON.parse(userStorage[1]) });
       }
 
@@ -61,7 +61,7 @@ const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   const signIn = useCallback(async ({ email, password }) => {
-    const response = await api.post<LoginResponse>('/sessions', {
+    const response = await api.login({
       email,
       password,
     });
@@ -77,11 +77,13 @@ const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   const signUp = useCallback(async ({ name, email, password }) => {
-    await api.post('/users', { name, email, password });
+    await api.signup({ name, email, password });
   }, []);
 
   const signOut = useCallback(async () => {
     await AsyncStorage.multiRemove([TOKEN_KEY, USER_KEY]);
+
+    api.removeToken();
 
     setData({} as AuthState);
   }, []);
