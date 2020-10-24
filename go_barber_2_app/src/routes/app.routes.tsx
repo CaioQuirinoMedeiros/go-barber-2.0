@@ -11,7 +11,12 @@ export type AppStackParams = {
   AppointmentDatePicker: {
     providerId: string;
   };
-  AppointmentCreated: undefined;
+  AppointmentCreated: {
+    date: number;
+    provider?: {
+      name: string;
+    };
+  };
   Profile: undefined;
 };
 

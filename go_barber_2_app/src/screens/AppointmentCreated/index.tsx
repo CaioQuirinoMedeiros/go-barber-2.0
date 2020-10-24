@@ -1,21 +1,50 @@
-import React from 'react';
+/* eslint-disable import/no-duplicates */
+import React, { useMemo, useCallback } from 'react';
+import Icon from 'react-native-vector-icons/Feather';
+import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
+import { format } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-import { useAuth } from '../../hooks/auth';
+import { AppStackParams } from '../../routes/app.routes';
+import { upperCaseFirstLetter } from '../../utils/upperCaseFirstLetter';
 
-import { Container, Button } from './styles';
+import { Container, Title, Description, OkButton } from './styles';
 
 const AppointmentCreated: React.FC = () => {
-  const { signOut } = useAuth();
+  const route = useRoute<RouteProp<AppStackParams, 'AppointmentCreated'>>();
+  const navigation = useNavigation<
+    StackNavigationProp<AppStackParams, 'AppointmentCreated'>
+  >();
+  const { date, provider } = route.params;
+
+  const formattedDate = useMemo(() => {
+    return upperCaseFirstLetter(
+      format(date, "EEEE', dia' dd 'de' MMMM 'de' yyyy 'às' HH:mm'h'", {
+        locale: ptBR,
+      })
+    );
+  }, [date]);
+
+  const handleOk = useCallback(() => {
+    navigation.reset({
+      index: 0,
+      routes: [
+        {
+          name: 'Dashboard',
+        },
+      ],
+    });
+  }, [navigation]);
 
   return (
     <Container>
-      <Button
-        onPress={async () => {
-          await signOut();
-        }}
-      >
-        Logout
-      </Button>
+      <Icon name="check" size={80} color="#04d361" />
+
+      <Title>Agendamento concluído</Title>
+      <Description>{`${formattedDate} com ${provider?.name}`}</Description>
+
+      <OkButton onPress={handleOk}>Ok</OkButton>
     </Container>
   );
 };

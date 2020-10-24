@@ -15,10 +15,11 @@ const Button: React.FC<ButtonProps> = ({
   children,
   textProps,
   loading,
+  enabled = true,
   ...rest
 }) => {
   return (
-    <Container {...rest}>
+    <Container {...rest} enabled={enabled}>
       <Text bold {...textProps}>
         {children}
       </Text>
