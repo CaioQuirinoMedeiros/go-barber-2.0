@@ -29,10 +29,10 @@ class ListProviderDayAvailabilityService {
   public async execute(request: IRequest): Promise<IResponse> {
     const { provider_id, day, month, year } = request;
 
-    const user = await this.usersRepository.findById(provider_id)
+    const user = await this.usersRepository.findById(provider_id);
 
     if (!user) {
-      throw new AppError('Provider not found')
+      throw new AppError('Provider not found');
     }
 
     const appointments = await this.appointmentsRepository.findAllInDayFromProvider(
