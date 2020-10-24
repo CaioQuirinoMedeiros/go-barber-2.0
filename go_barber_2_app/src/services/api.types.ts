@@ -23,4 +23,38 @@ export type LoginResponse = {
   user: UserResponse;
   token: string;
 };
+
 export type ProvidersResponse = UserResponse[];
+
+export type ProviderMonthAvailabilityParams = {
+  providerId: string;
+  year: number;
+  month: number;
+};
+
+export type ProviderMonthAvailabilityResponse = Array<{
+  day: number;
+  available: boolean;
+}>;
+
+export type ProviderDayAvailabilityParams = {
+  providerId: string;
+  year: number;
+  month: number;
+  day: number;
+};
+
+export type ProviderDayAvailabilityResponse = Array<{
+  hour: number;
+  available: boolean;
+}>;
+
+export type CreateAppointmentParams = {
+  provider_id: string;
+  date: Date;
+};
+
+export type CreateAppointmentResponse = {
+  hour: number;
+  available: boolean;
+};

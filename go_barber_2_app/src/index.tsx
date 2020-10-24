@@ -1,9 +1,15 @@
 import React from 'react';
-import { StatusBar } from 'react-native';
+import { Platform, StatusBar, UIManager } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 
 import Routes from './routes';
 import AppProvider from './hooks';
+
+if (Platform.OS === 'android') {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
 
 const App: React.FC = () => {
   return (

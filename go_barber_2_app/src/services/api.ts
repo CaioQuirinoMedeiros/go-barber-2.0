@@ -40,12 +40,44 @@ const createApi = () => {
     return axiosInstance.get<ApiTypes.ProvidersResponse>('providers');
   };
 
+  const getProviderDayAvailability = (
+    params: ApiTypes.ProviderDayAvailabilityParams
+  ) => {
+    const { providerId, day, month, year } = params;
+    return axiosInstance.get<ApiTypes.ProviderDayAvailabilityResponse>(
+      `providers/${providerId}/day-availability`,
+      { params: { day, month, year } }
+    );
+  };
+
+  const getProviderMonthAvailability = (
+    params: ApiTypes.ProviderMonthAvailabilityParams
+  ) => {
+    const { providerId, month, year } = params;
+    return axiosInstance.get<ApiTypes.ProviderMonthAvailabilityResponse>(
+      `providers/${providerId}/month-availability`,
+      { params: { month, year } }
+    );
+  };
+
+  const createAppointment = (params: ApiTypes.CreateAppointmentParams) => {
+    const { provider_id, date } = params;
+
+    return axiosInstance.post<ApiTypes.CreateAppointmentResponse>(
+      'appointments',
+      { provider_id, date }
+    );
+  };
+
   return {
     setToken,
     removeToken,
     signup,
     login,
     getProviders,
+    getProviderMonthAvailability,
+    getProviderDayAvailability,
+    createAppointment,
   };
 };
 

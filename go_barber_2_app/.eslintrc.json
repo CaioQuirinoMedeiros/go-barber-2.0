@@ -35,7 +35,9 @@
     "react/jsx-props-no-spreading": "off",
     "react/prop-types": "off",
     "no-unused-expressions": "off",
+    "@typescript-eslint/camelcase": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
+    "react/no-array-index-key": "off",
     "import/extensions": [
       "error",
       "ignorePackages",

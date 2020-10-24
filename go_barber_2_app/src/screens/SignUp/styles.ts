@@ -36,6 +36,7 @@ export const Input = styled(MyInput)`
 
 export const Button = styled(MyButton)`
   margin-top: 8px;
+  align-self: stretch;
 `;
 
 export const BackToLogin = styled(MyTextButton).attrs({
