@@ -7,6 +7,7 @@ import Profile from '../screens/Profile';
 import AppointmentDatePicker from '../screens/AppointmentDatePicker';
 import AppointmentCreated from '../screens/AppointmentCreated';
 import { useAuth } from '../hooks/auth';
+import alert from '../utils/alert';
 
 export type AppStackParams = {
   Dashboard: undefined;
@@ -84,7 +85,20 @@ const AuthRoutes: React.FC = () => {
                 flex: 1,
                 paddingHorizontal: 24,
               }}
-              onPress={signOut}
+              onPress={() => {
+                alert({
+                  title: 'Logout',
+                  message: 'Tem certeza que deseja sair?',
+                  buttons: [
+                    { text: 'Cancelar', style: 'cancel' },
+                    {
+                      text: 'Confirmar',
+                      style: 'destructive',
+                      onPress: signOut,
+                    },
+                  ],
+                });
+              }}
             />
           ),
         })}

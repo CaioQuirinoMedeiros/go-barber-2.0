@@ -58,5 +58,9 @@
 		<string>RobotoSlab-Medium.ttf</string>
 		<string>RobotoSlab-Regular.ttf</string>
 	</array>
+  <key>NSCameraUsageDescription</key>
+  <string>Esta permissão é necessária para tirar foto para o perfil do usuário</string>
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>Esta permissão é necessária para importar fotos para o perfil do usuário</string>
 </dict>
 </plist>

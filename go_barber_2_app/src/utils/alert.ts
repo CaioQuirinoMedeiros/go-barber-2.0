@@ -20,9 +20,9 @@ interface AsyncAlertOptions extends RNAlertOptions {
 }
 
 const alert = (options: AlertOptions): void => {
-  const { title, message, buttons, ...rest } = options;
+  const { title, message, buttons, cancelable = true, onDismiss } = options;
 
-  return Alert.alert(title, message, buttons, rest);
+  return Alert.alert(title, message, buttons, { cancelable, onDismiss });
 };
 
 export const asyncAlert = (options: AsyncAlertOptions): Promise<any> => {

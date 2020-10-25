@@ -58,3 +58,15 @@ export type CreateAppointmentResponse = {
   hour: number;
   available: boolean;
 };
+
+export type UpdateProfileParams = {
+  name: string;
+  email: string;
+  password: string;
+  password_confirmation: string;
+  old_password: string;
+};
+
+export type UpdateProfileResponse = UserResponse;
+
+export type UpdateAvatarResponse = UserResponse;

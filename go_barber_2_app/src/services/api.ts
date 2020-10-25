@@ -69,6 +69,35 @@ const createApi = () => {
     );
   };
 
+  const updateProfile = (params: ApiTypes.UpdateProfileParams) => {
+    const {
+      name,
+      email,
+      password,
+      password_confirmation,
+      old_password,
+    } = params;
+
+    return axiosInstance.put<ApiTypes.UpdateProfileResponse>('profile', {
+      name,
+      email,
+      password,
+      password_confirmation,
+      old_password,
+    });
+  };
+
+  const updateAvatar = (formData: FormData) => {
+    return axiosInstance.patch<ApiTypes.UpdateAvatarResponse>(
+      'users/avatar',
+      formData
+    );
+  };
+
+  const removerAvatar = () => {
+    return axiosInstance.delete('users/avatar');
+  };
+
   return {
     setToken,
     removeToken,
@@ -78,11 +107,10 @@ const createApi = () => {
     getProviderMonthAvailability,
     getProviderDayAvailability,
     createAppointment,
+    updateProfile,
+    updateAvatar,
+    removerAvatar,
   };
 };
-
-// const api = axios.create({
-//   baseURL: 'http://localhost:3333',
-// });
 
 export default createApi();
