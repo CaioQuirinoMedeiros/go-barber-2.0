@@ -1,13 +1,16 @@
 import React, { useRef, useCallback, useState } from 'react';
-import { Image, TextInput, Alert } from 'react-native';
+import { Image, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 import { object, string } from 'yup';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 import logo from '../../assets/logo.png';
 import getValidationErrors from '../../utils/getValidationErrors';
 import { useAuth } from '../../hooks/auth';
+import alert from '../../utils/alert';
+import { AuthStackParams } from '../../routes/auth.routes';
 
 import {
   Container,
@@ -33,20 +36,23 @@ interface LoginFormData {
 
 const Login: React.FC = () => {
   const { signIn } = useAuth();
-  const navigation = useNavigation();
+  const navigation = useNavigation<
+    StackNavigationProp<AuthStackParams, 'Login'>
+  >();
 
   const [fetching, setFetching] = useState(false);
 
   const passwordRef = useRef<TextInput>(null);
   const formRef = useRef<FormHandles>(null);
 
-  function handleForgotPassword(): void {
-    setFetching(false);
-  }
+  const handleForgotPassword = useCallback(() => {
+    const formData = formRef.current?.getData() as LoginFormData;
+    navigation.navigate('ForgotPassword', { email: formData.email });
+  }, [navigation]);
 
-  function handleSignUp(): void {
+  const handleSignUp = useCallback(() => {
     navigation.navigate('SignUp');
-  }
+  }, [navigation]);
 
   const handleLoginSubmit = useCallback(
     async (data: LoginFormData) => {
@@ -63,7 +69,10 @@ const Login: React.FC = () => {
       try {
         await signIn(data);
       } catch {
-        Alert.alert('Erro ao fazer login', 'Verifique suas credenciais');
+        alert({
+          title: 'Erro ao fazer login',
+          message: 'Verifique suas credenciais',
+        });
       }
       setFetching(false);
     },

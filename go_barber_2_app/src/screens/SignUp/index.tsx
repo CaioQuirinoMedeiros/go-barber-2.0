@@ -1,13 +1,16 @@
 import React, { useRef, useCallback, useState } from 'react';
-import { Image, TextInput, Alert } from 'react-native';
+import { Image, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/mobile';
 import { object, string } from 'yup';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 import logo from '../../assets/logo.png';
 import getValidationErrors from '../../utils/getValidationErrors';
-import api from '../../services/api';
+import alert from '../../utils/alert';
+import { AuthStackParams } from '../../routes/auth.routes';
+import { useAuth } from '../../hooks/auth';
 
 import {
   Container,
@@ -33,7 +36,10 @@ interface SignupDataForm {
 }
 
 const SignUp: React.FC = () => {
-  const navigation = useNavigation();
+  const { signUp } = useAuth();
+  const navigation = useNavigation<
+    StackNavigationProp<AuthStackParams, 'SignUp'>
+  >();
 
   const [fetching, setFetching] = useState(false);
 
@@ -41,9 +47,9 @@ const SignUp: React.FC = () => {
   const passwordRef = useRef<TextInput>(null);
   const formRef = useRef<FormHandles>(null);
 
-  function handleLogin(): void {
+  const handleLogin = useCallback(() => {
     navigation.navigate('Login');
-  }
+  }, [navigation]);
 
   const handleSignUpSubmit = useCallback(
     async (data: SignupDataForm) => {
@@ -59,35 +65,28 @@ const SignUp: React.FC = () => {
       }
 
       try {
-        await api.post('/users', data);
+        await signUp(data);
 
-        Alert.alert(
-          'Cadastro realizado com sucesso!',
-          'Você já pode fazer login na aplicação',
-          [
+        alert({
+          title: 'Cadastro realizado com sucesso!',
+          message: 'Você já pode fazer login na aplicação',
+          buttons: [
             {
               text: 'Ok',
-              onPress: () => {
-                navigation.navigate('Login');
-              },
+              onPress: handleLogin,
             },
-          ]
-        );
+          ],
+        });
       } catch (err) {
-        Alert.alert(
-          'Erro ao realiar cadastro',
-          'Não foi possível cadastrar o usuário, tente novamente',
-          [
-            {
-              text: 'Ok',
-            },
-          ]
-        );
+        alert({
+          title: 'Erro ao realiar cadastro',
+          message: 'Não foi possível cadastrar o usuário, tente novamente',
+        });
       }
 
       setFetching(false);
     },
-    [navigation]
+    [handleLogin, signUp]
   );
 
   return (

@@ -98,6 +98,10 @@ const createApi = () => {
     return axiosInstance.delete('users/avatar');
   };
 
+  const forgotPassword = (email: string) => {
+    return axiosInstance.post('password/forgot', { email });
+  };
+
   return {
     setToken,
     removeToken,
@@ -110,6 +114,7 @@ const createApi = () => {
     updateProfile,
     updateAvatar,
     removerAvatar,
+    forgotPassword,
   };
 };
 
