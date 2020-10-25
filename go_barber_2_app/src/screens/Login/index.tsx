@@ -64,6 +64,8 @@ const Login: React.FC = () => {
       } catch (err) {
         const errors = getValidationErrors(err);
         formRef.current?.setErrors(errors);
+        setFetching(false);
+        return;
       }
 
       try {

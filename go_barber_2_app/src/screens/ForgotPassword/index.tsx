@@ -95,17 +95,6 @@ const ForgotPassword: React.FC = () => {
               passwordRef.current && passwordRef.current.focus();
             }}
           />
-          <Input
-            name="password"
-            icon="lock"
-            placeholder="Senha"
-            secureTextEntry
-            onSubmitEditing={() => {
-              formRef.current?.submitForm();
-            }}
-            returnKeyType="send"
-            ref={passwordRef}
-          />
           <Button
             loading={sending}
             onPress={() => {
