@@ -14,6 +14,7 @@ import Button from '../../components/Button';
 
 import { Container, Content, AvatarInput } from './styles';
 import api from '../../services/api';
+import Avatar from '../../components/Avatar';
 
 const profileSchema = object().shape({
   name: string().required('Nome obrigatório'),
@@ -142,7 +143,7 @@ const Profile: React.FC = () => {
           initialData={{ name: user.name, email: user.email }}
         >
           <AvatarInput>
-            <img src={user.avatar_url} alt={user.name} />
+            <Avatar size={186} src={user.avatar_url} name={user.name} />
             <label htmlFor="avatar">
               <FiCamera />
 

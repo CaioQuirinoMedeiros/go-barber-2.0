@@ -9,6 +9,7 @@ import 'react-day-picker/lib/style.css';
 import api from '../../services/api';
 import { useAuth } from '../../hooks/auth';
 import logoImage from '../../assets/logo.svg';
+import Avatar from '../../components/Avatar';
 
 import {
   Container,
@@ -135,13 +136,7 @@ const Dashboard: React.FC = () => {
         <HeaderContent>
           <img src={logoImage} alt={user.name} />
           <Profile>
-            <img
-              src={
-                user.avatar_url ||
-                `https://api.adorable.io/avatars/250/${user.name}`
-              }
-              alt={user.name}
-            />
+            <Avatar src={user.avatar_url} name={user.name} />
             <div>
               <span>Bem-vindo</span>
               <Link to="/profile">
@@ -169,9 +164,10 @@ const Dashboard: React.FC = () => {
             <NextAppointment>
               <strong>Agendamento a seguir</strong>
               <div>
-                <img
+                <Avatar
+                  size={80}
                   src={nextAppointment.user.avatar_url}
-                  alt={nextAppointment.user.name}
+                  name={nextAppointment.user.name}
                 />
                 <strong>{nextAppointment.user.name}</strong>
                 <span>
