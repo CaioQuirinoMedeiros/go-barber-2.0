@@ -1,10 +1,11 @@
 import axios, { AxiosResponse } from 'axios';
+import Config from 'react-native-config';
 
 import * as ApiTypes from './api.types';
 
 const createApi = () => {
   const axiosInstance = axios.create({
-    baseURL: 'http://localhost:3333',
+    baseURL: Config.API_URL,
   });
 
   const setToken = (token: string) => {

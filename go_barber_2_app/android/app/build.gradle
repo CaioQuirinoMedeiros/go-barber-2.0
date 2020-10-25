@@ -1,5 +1,8 @@
 apply plugin: "com.android.application"
 
+// react-native-config
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+
 import com.android.build.OutputFile
 
 /**
@@ -134,6 +137,9 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+
+        // react-native-config
+        resValue "string", "build_config_package", "com.caio.gobarber"
     }
     splits {
         abi {
