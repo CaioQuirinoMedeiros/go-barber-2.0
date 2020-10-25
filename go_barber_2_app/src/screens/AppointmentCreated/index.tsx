@@ -41,7 +41,7 @@ const AppointmentCreated: React.FC = () => {
     <Container>
       <Icon name="check" size={80} color="#04d361" />
 
-      <Title>Agendamento concluído</Title>
+      <Title bold>Agendamento concluído</Title>
       <Description>{`${formattedDate} com ${provider?.name}`}</Description>
 
       <OkButton onPress={handleOk}>Ok</OkButton>

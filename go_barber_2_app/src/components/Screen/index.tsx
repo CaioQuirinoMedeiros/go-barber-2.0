@@ -14,9 +14,6 @@ import { offsets, styles } from './styles';
 
 const isAndroid = Platform.OS === 'android';
 
-/**
- * Componente container para as telas
- */
 const Screen: React.FC<ScreenProps> = props => {
   const {
     scroll,

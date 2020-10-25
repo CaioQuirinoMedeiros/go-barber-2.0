@@ -8,11 +8,11 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "adb": "adb reverse tcp:8081 tcp:8081 && adb reverse tcp:3333 tcp:3333"
+    "android:clean": "cd android && ./gradlew clean",
+    "adb": "adb reverse tcp:8081 tcp:8081 && adb reverse tcp:3333 tcp:3333 && adb reverse tcp:8097 tcp:8097"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.9.0",
-    "@react-native-community/datetimepicker": "^3.0.4",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/native": "^5.1.6",
     "@react-navigation/stack": "^5.2.13",
@@ -24,7 +24,9 @@
     "date-fns": "^2.16.1",
     "react": "16.11.0",
     "react-native": "0.62.2",
+    "react-native-actionsheet": "^2.4.2",
     "react-native-gesture-handler": "^1.6.1",
+    "react-native-image-crop-picker": "^0.35.1",
     "react-native-iphone-x-helper": "^1.3.0",
     "react-native-reanimated": "^1.8.0",
     "react-native-safe-area-context": "^0.7.3",
