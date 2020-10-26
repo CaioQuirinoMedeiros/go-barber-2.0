@@ -22,10 +22,8 @@ createConnections([
   {
     name: 'mongo',
     type: 'mongodb',
-    host: process.env.MONGO_HOST,
-    port: Number(process.env.MONGO_PORT),
-    password: process.env.MONGO_PASSWORD,
-    database: process.env.MONGO_DATABASE,
+    url: process.env.MONGO_URL,
+    useNewUrlParser: true,
     useUnifiedTopology: true,
     entities: ['./src/modules/**/infra/typeorm/schemas/*.ts'],
   },
