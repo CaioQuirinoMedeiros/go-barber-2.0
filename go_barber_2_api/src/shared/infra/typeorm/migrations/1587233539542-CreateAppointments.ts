@@ -15,10 +15,6 @@ export default class CreateAppointments1587233539542
             default: 'uuid_generate_v4()',
           },
           {
-            name: 'provider',
-            type: 'varchar',
-          },
-          {
             name: 'date',
             type: 'timestamp with time zone',
           },
