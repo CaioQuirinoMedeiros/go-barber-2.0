@@ -75,10 +75,10 @@ export const AvatarInput = styled.div`
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    bottom: 0;
+    bottom: 8px;
     border: none;
     background: #ff9000;
-    right: 0;
+    right: 8px;
     transition: all 0.2s;
     display: flex;
     align-items: center;

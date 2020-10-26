@@ -89,15 +89,15 @@ const Profile: React.FC = () => {
         formRef.current?.clearField('password');
         formRef.current?.clearField('password_confirmation');
         addToast({
-          title: `Cadastrado com sucesso!`,
-          description:
-            'Parabéns, sua conta foi criada, utilize seus dados para fazer login',
+          title: 'Perfil atualizado!',
+          description: 'Seus dados foram atualizados com sucesso',
           type: 'success',
         });
       } catch (err) {
         addToast({
-          title: `Erro ao se cadastrar`,
-          description: 'Não foi possível criar o usuário, verifique seus dados',
+          title: 'Erro ao atualizar perfil',
+          description:
+            'Verifique se os campos estão preenchidos corretamente e tente novamente.',
           type: 'error',
         });
       }

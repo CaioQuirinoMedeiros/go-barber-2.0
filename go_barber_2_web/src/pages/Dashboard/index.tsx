@@ -37,6 +37,7 @@ interface Appointment {
     name: string;
     avatar_url: string;
   };
+  past: boolean;
 }
 
 const Dashboard: React.FC = () => {
@@ -83,9 +84,17 @@ const Dashboard: React.FC = () => {
 
   const nextAppointment = useMemo(() => {
     return appointments.find(appointment => {
+      const appointmentDate = parseISO(appointment.date);
+      console.log({
+        appointmentDate,
+        newDate: new Date(),
+        after: isAfter(parseISO(appointment.date), new Date()),
+      });
       return isAfter(parseISO(appointment.date), new Date());
     });
   }, [appointments]);
+
+  console.log({ nextAppointment });
 
   const handleDateChange = useCallback((day: Date, modifiers: DayModifiers) => {
     if (modifiers.available && !modifiers.disabled) {
@@ -134,7 +143,7 @@ const Dashboard: React.FC = () => {
     <Container>
       <Header>
         <HeaderContent>
-          <img src={logoImage} alt={user.name} />
+          <img src={logoImage} alt="Go Barber" />
           <Profile>
             <Avatar src={user.avatar_url} name={user.name} />
             <div>
@@ -160,7 +169,8 @@ const Dashboard: React.FC = () => {
             <span>{selectedWeekDayAsText}</span>
           </p>
 
-          {isToday(selectedDate) && nextAppointment && (
+          {nextAppointment && (
+            // {isToday(selectedDate) && nextAppointment && (
             <NextAppointment>
               <strong>Agendamento a seguir</strong>
               <div>
@@ -184,20 +194,22 @@ const Dashboard: React.FC = () => {
               <p>Nenhum agendamento neste período</p>
             )}
             {morningAppointments.map(appointment => (
-              <Appointment key={appointment.id}>
+              <Appointment key={appointment.id} past={appointment.past}>
                 <span>
                   <FiClock />
                   {appointment.hourFormatted}
                 </span>
                 <div>
-                  <img
-                    src={
-                      appointment.user.avatar_url ||
-                      `https://api.adorable.io/avatars/250/${user.name}`
-                    }
-                    alt={appointment.user.name}
+                  <Avatar
+                    size={56}
+                    name={appointment.user.name}
+                    src={appointment.user.avatar_url}
                   />
-                  <strong>{appointment.user.name}</strong>
+                  <strong>
+                    Um nome muito grande pra fazer o app quebrar e eu qter que
+                    dasd mkaosdmj asmdoasid
+                  </strong>
+                  {/* <strong>{appointment.user.name}</strong> */}
                 </div>
               </Appointment>
             ))}
@@ -208,18 +220,16 @@ const Dashboard: React.FC = () => {
               <p>Nenhum agendamento neste período</p>
             )}
             {afternoonAppointments.map(appointment => (
-              <Appointment key={appointment.id}>
+              <Appointment key={appointment.id} past={appointment.past}>
                 <span>
                   <FiClock />
                   {appointment.hourFormatted}
                 </span>
                 <div>
-                  <img
-                    src={
-                      appointment.user.avatar_url ||
-                      `https://api.adorable.io/avatars/250/${user.name}`
-                    }
-                    alt={appointment.user.name}
+                  <Avatar
+                    size={56}
+                    name={appointment.user.name}
+                    src={appointment.user.avatar_url}
                   />
                   <strong>{appointment.user.name}</strong>
                 </div>
