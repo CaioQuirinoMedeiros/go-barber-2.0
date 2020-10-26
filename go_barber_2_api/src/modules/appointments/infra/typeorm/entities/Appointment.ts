@@ -7,6 +7,8 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
+import { Expose } from 'class-transformer';
+import { isPast } from 'date-fns';
 
 import User from '@modules/users/infra/typeorm/entities/User';
 
@@ -37,6 +39,11 @@ class Appointment {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @Expose({ name: 'past' })
+  getPast(): boolean {
+    return isPast(this.date);
+  }
 }
 
 export default Appointment;
