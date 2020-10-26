@@ -36,6 +36,7 @@
     "rate-limiter-flexible": "^2.1.6",
     "redis": "^3.0.2",
     "reflect-metadata": "^0.1.13",
+    "ts-node": "^9.0.0",
     "tsyringe": "^4.1.0",
     "typeorm": "^0.2.24",
     "uuidv4": "^6.0.7"
