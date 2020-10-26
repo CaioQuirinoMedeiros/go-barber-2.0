@@ -3,10 +3,13 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "engines": {
+    "node": ">=12.10"
+  },
   "scripts": {
     "build": "yarn tsc",
     "dev:server": "ts-node-dev -r tsconfig-paths/register --transpile-only --ignore-watch node_modules src/shared/infra/http/server.ts",
-    "start": "ts-node -r tsconfig-paths/register dist/shared/infra/http/server.js",
+    "start": "ts-node  -r tsconfig-paths/register dist/shared/infra/http/server.js",
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "test": "jest --setupFiles dotenv/config"
   },
