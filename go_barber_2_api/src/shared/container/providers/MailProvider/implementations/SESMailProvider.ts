@@ -1,47 +1,36 @@
 import { inject, injectable } from 'tsyringe';
 import nodemailer, { Transporter } from 'nodemailer';
+import aws from 'aws-sdk';
 
+import mailConfig from '@config/mail';
 import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider';
 import ISendMailDTO from '@shared/container/providers/MailProvider/dtos/ISendMailDTO';
 import IMailTemplateProvider from '@shared/container/providers/MailTemplateProvider/models/IMailTemplateProvider';
 
 @injectable()
-class EtherealMailProvider implements IMailProvider {
+class SESMailProvider implements IMailProvider {
   private client: Transporter;
 
   constructor(
     @inject('MailTemplateProvider')
     private mailTemplateProvider: IMailTemplateProvider,
   ) {
-    nodemailer
-      .createTestAccount()
-      .then(account => {
-        const transporter = nodemailer.createTransport({
-          host: account.smtp.host,
-          port: account.smtp.port,
-          secure: account.smtp.secure,
-          auth: {
-            user: account.user,
-            pass: account.pass,
-          },
-        });
-
-        this.client = transporter;
-      })
-      .catch(error => {
-        console.log('Erro no email: ', error);
-      });
+    this.client = nodemailer.createTransport({
+      SES: new aws.SES({ apiVersion: '2010-12-01', region: 'us-east-1' }),
+    });
   }
 
   public async sendMail(data: ISendMailDTO): Promise<void> {
+    const defaultFrom = mailConfig.defaults.from;
+
     const { from, to, subject, templateData } = data;
 
     const html = await this.mailTemplateProvider.parse(templateData);
 
-    const message = await this.client.sendMail({
+    const response = await this.client.sendMail({
       from: {
-        name: from?.name || 'Caio Medeiros',
-        address: from?.email || 'caio.quirino.medeiros@gmail.com',
+        name: from?.name || defaultFrom.name,
+        address: from?.email || defaultFrom.email,
       },
       to: {
         name: to.name,
@@ -51,9 +40,8 @@ class EtherealMailProvider implements IMailProvider {
       html,
     });
 
-    console.log(`Message sent: ${message.messageId}`);
-    console.log(`Preview URL: ${nodemailer.getTestMessageUrl(message)}`);
+    console.log('email sent: ', { from, to, subject, response });
   }
 }
 
-export default EtherealMailProvider;
+export default SESMailProvider;

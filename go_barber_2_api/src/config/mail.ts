@@ -1,5 +1,5 @@
 interface IMailConfig {
-  driver: 'ethereal' | 'sendgrid';
+  driver: 'ethereal' | 'sendgrid' | 'ses';
   defaults: {
     from: {
       email: string;
@@ -13,7 +13,7 @@ export default {
   defaults: {
     from: {
       email: 'caio.quirino.medeiros@gmail.com',
-      name: 'Caio Quirino Medeiros',
+      name: 'GoBarber Support',
     },
   },
 } as IMailConfig;
