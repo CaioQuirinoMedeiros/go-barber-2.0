@@ -1,10 +1,35 @@
-import { createConnections, getConnectionOptions } from 'typeorm';
+import { createConnections } from 'typeorm';
 
-getConnectionOptions().then(connectionOptions => {
-  console.log('connectionOptions', connectionOptions);
-});
-
-createConnections()
+createConnections([
+  {
+    name: 'default',
+    type: (process.env.TYPEORM_CONNECTION as 'postgres') || 'postgres',
+    host: process.env.TYPEORM_HOST,
+    port: Number(process.env.TYPEORM_PORT),
+    username: process.env.TYPEORM_USERNAME,
+    password: process.env.TYPEORM_PASSWORD,
+    database: process.env.TYPEORM_DATABASE,
+    logging: true,
+    entities: [
+      './src/modules/**/infra/typeorm/entities/*.ts',
+      './src/modules/**/infra/typeorm/entities/*.js',
+    ],
+    migrations: ['./src/shared/infra/typeorm/migrations/*.ts'],
+    cli: {
+      migrationsDir: './src/shared/infra/typeorm/migrations',
+    },
+  },
+  {
+    name: 'mongo',
+    type: 'mongodb',
+    host: process.env.MONGO_HOST,
+    port: Number(process.env.MONGO_PORT),
+    password: process.env.MONGO_PASSWORD,
+    database: process.env.MONGO_DATABASE,
+    useUnifiedTopology: true,
+    entities: ['./src/modules/**/infra/typeorm/schemas/*.ts'],
+  },
+])
   .then(() => {
     console.log('Conexões com banco de dados estabelecidas');
   })

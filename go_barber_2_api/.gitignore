@@ -8,4 +8,5 @@ build
 coverage
 .env
 ormconfig.json
+ormconfig.*.json
 dist
