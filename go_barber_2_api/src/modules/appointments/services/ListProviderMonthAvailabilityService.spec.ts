@@ -17,6 +17,11 @@ describe('ListProviderMonthAvailability', () => {
 
     const appointmentsToCreate = [
       {
+        date: new Date(year, 6, 5, 10, 0, 0),
+        provider_id: 'any_provider_id',
+        user_id: 'anything',
+      },
+      {
         date: new Date(year, 6, 10, 8, 0, 0),
         provider_id: 'any_provider_id',
         user_id: 'anything',
@@ -89,6 +94,10 @@ describe('ListProviderMonthAvailability', () => {
 
     const expectedResultToContain = [
       {
+        day: 8,
+        available: true,
+      },
+      {
         day: 9,
         available: true,
       },
@@ -98,7 +107,7 @@ describe('ListProviderMonthAvailability', () => {
       },
       {
         day: 11,
-        available: true,
+        available: false,
       },
       {
         day: 12,

@@ -1,5 +1,5 @@
 import { inject, injectable } from 'tsyringe';
-import { startOfHour, isBefore, getHours, format } from 'date-fns';
+import { startOfHour, isBefore, getHours, format, getDay } from 'date-fns';
 
 import AppError from '@shared/errors/AppError';
 import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
@@ -40,6 +40,10 @@ class CreateAppointmentService {
       throw new AppError(
         'You can only create appointments between 8am adn 5pm',
       );
+    }
+
+    if (getDay(appointmentDate) === 0 || getDay(appointmentDate) === 6) {
+      throw new AppError('You can\t create an appointment on weekend');
     }
 
     if (user_id === provider_id) {
