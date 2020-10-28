@@ -205,11 +205,7 @@ const Dashboard: React.FC = () => {
                     name={appointment.user.name}
                     src={appointment.user.avatar_url}
                   />
-                  <strong>
-                    Um nome muito grande pra fazer o app quebrar e eu qter que
-                    dasd mkaosdmj asmdoasid
-                  </strong>
-                  {/* <strong>{appointment.user.name}</strong> */}
+                  <strong>{appointment.user.name}</strong>
                 </div>
               </Appointment>
             ))}
