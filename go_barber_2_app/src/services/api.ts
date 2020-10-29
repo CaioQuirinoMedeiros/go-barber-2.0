@@ -18,7 +18,12 @@ const createApi = () => {
 
   const signup = (signupParams: ApiTypes.SignupParams) => {
     const { name, email, password } = signupParams;
-    return axiosInstance.post('users', { name, email, password });
+    return axiosInstance.post('users', {
+      name,
+      email,
+      password,
+      password_confirmation: password,
+    });
   };
 
   const login = (loginParams: ApiTypes.LoginParams) => {

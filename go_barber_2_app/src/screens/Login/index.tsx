@@ -1,6 +1,11 @@
 import React, { useRef, useCallback, useState } from 'react';
 import { Image, TextInput } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import {
+  RouteProp,
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 import { object, string } from 'yup';
@@ -13,7 +18,7 @@ import alert from '../../utils/alert';
 import { AuthStackParams } from '../../routes/auth.routes';
 
 import {
-  Container,
+  Screen,
   Scrollable,
   Title,
   Input,
@@ -36,6 +41,7 @@ interface LoginFormData {
 
 const Login: React.FC = () => {
   const { signIn } = useAuth();
+  const route = useRoute<RouteProp<AuthStackParams, 'Login'>>();
   const navigation = useNavigation<
     StackNavigationProp<AuthStackParams, 'Login'>
   >();
@@ -44,6 +50,12 @@ const Login: React.FC = () => {
 
   const passwordRef = useRef<TextInput>(null);
   const formRef = useRef<FormHandles>(null);
+
+  useFocusEffect(
+    useCallback(() => {
+      formRef.current?.setFieldValue('email', route.params?.email);
+    }, [])
+  );
 
   const handleForgotPassword = useCallback(() => {
     const formData = formRef.current?.getData() as LoginFormData;
@@ -83,7 +95,7 @@ const Login: React.FC = () => {
 
   return (
     <>
-      <Container>
+      <Screen>
         <Scrollable keyboardShouldPersistTaps="handled">
           <Image source={logo} />
 
@@ -92,10 +104,7 @@ const Login: React.FC = () => {
           <Form
             onSubmit={handleLoginSubmit}
             ref={formRef}
-            initialData={{
-              email: 'caio.quirino.medeiros@gmail.com',
-              password: '123456',
-            }}
+            initialData={{ email: route.params?.email }}
           >
             <Input
               name="email"
@@ -135,7 +144,7 @@ const Login: React.FC = () => {
             Esqueci minha senha
           </ForgotPassword>
         </Scrollable>
-      </Container>
+      </Screen>
       <CreateAccount icon="log-in" onPress={handleSignUp}>
         Criar conta
       </CreateAccount>

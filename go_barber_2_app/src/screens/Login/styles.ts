@@ -1,16 +1,13 @@
 import styled from 'styled-components/native';
 import { Platform } from 'react-native';
 
+import MyScreen from '../../components/Screen';
 import MyText from '../../components/Text';
 import MyInput from '../../components/Input';
 import MyButton from '../../components/Button';
 import MyTextButton from '../../components/TextButton';
 
-export const Container = styled.KeyboardAvoidingView.attrs({
-  behavior: Platform.OS === 'ios' ? 'padding' : undefined,
-  enabled: true,
-})`
-  flex: 1;
+export const Screen = styled(MyScreen)`
   padding: 0 30px;
 `;
 

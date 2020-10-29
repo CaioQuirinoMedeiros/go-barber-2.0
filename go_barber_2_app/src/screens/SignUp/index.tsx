@@ -13,7 +13,7 @@ import { AuthStackParams } from '../../routes/auth.routes';
 import { useAuth } from '../../hooks/auth';
 
 import {
-  Container,
+  Screen,
   Scrollable,
   Title,
   Input,
@@ -47,9 +47,12 @@ const SignUp: React.FC = () => {
   const passwordRef = useRef<TextInput>(null);
   const formRef = useRef<FormHandles>(null);
 
-  const handleLogin = useCallback(() => {
-    navigation.navigate('Login');
-  }, [navigation]);
+  const handleLogin = useCallback(
+    (email?: string) => {
+      navigation.navigate('Login', { email });
+    },
+    [navigation]
+  );
 
   const handleSignUpSubmit = useCallback(
     async (data: SignupDataForm) => {
@@ -75,11 +78,13 @@ const SignUp: React.FC = () => {
           buttons: [
             {
               text: 'Ok',
-              onPress: handleLogin,
+              onPress: () => {
+                handleLogin(data.email);
+              },
             },
           ],
         });
-      } catch (err) {
+      } catch {
         alert({
           title: 'Erro ao realiar cadastro',
           message: 'Não foi possível cadastrar o usuário, tente novamente',
@@ -93,7 +98,7 @@ const SignUp: React.FC = () => {
 
   return (
     <>
-      <Container>
+      <Screen>
         <Scrollable keyboardShouldPersistTaps="handled">
           <Image source={logo} />
 
@@ -147,7 +152,7 @@ const SignUp: React.FC = () => {
             </Button>
           </Form>
         </Scrollable>
-      </Container>
+      </Screen>
       <BackToLogin icon="arrow-left" onPress={handleLogin}>
         Voltar para logon
       </BackToLogin>

@@ -6,7 +6,9 @@ import SignUp from '../screens/SignUp';
 import ForgotPassword from '../screens/ForgotPassword';
 
 export type AuthStackParams = {
-  Login: undefined;
+  Login: {
+    email?: string;
+  };
   SignUp: undefined;
   ForgotPassword: {
     email?: string;
