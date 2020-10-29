@@ -8,7 +8,7 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "adb": "adb reverse tcp:8081 tcp:8081 && adb reverse tcp:3333 tcp:3333 && adb reverse tcp:8097 tcp:8097",
+    "adb-reverse": "adb reverse tcp:8081 tcp:8081 && adb reverse tcp:3333 tcp:3333 && adb reverse tcp:8097 tcp:8097",
     "android:clean": "cd android && ./gradlew clean",
     "android:development": "set ENVFILE=.env.development && yarn android",
     "android:production": "set ENVFILE=.env.production && yarn android",
