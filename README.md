@@ -39,14 +39,9 @@
 ## Table of Contents
 
 - [About the Project](#about-the-project)
-  - [Built With](#built-with)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-- [Usage](#usage)
-- [Roadmap](#roadmap)
+- [Built With](#built-with)
+- [Installation](#installation)
 - [Contributing](#contributing)
-- [License](#license)
 - [Contact](#contact)
 - [Acknowledgements](#acknowledgements)
 
@@ -55,7 +50,6 @@
 ## About The Project
 
 <div align="justify-between" style="display:flex;justify-content:space-between">
-  <img src="./screenshots/app.gif" width="280px" style="margin: 0 auto;"/>
   <img src="./screenshots/app.gif" width="280px" style="margin: 0 auto;"/>
   <img src="./screenshots/app.gif" width="280px" style="margin: 0 auto;"/>
 </div>
@@ -76,9 +70,7 @@ The better stack I've ever known (actually it's the only stack I have experience
 - [ReactJS](https://reactjs.org/)
 - [ReactNative](https://reactnative.dev/)
 
-<!-- GETTING STARTED -->
-
-## Getting Started
+## Installation
 
 To make the whole magic happen you need to run the Node API and the frontends pointing to the API. If you are familiar with Node an React you shouldn't have trouble to do that, but here are the main steps:
 
