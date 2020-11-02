@@ -50,8 +50,8 @@
 ## About The Project
 
 <div align="justify-between" style="display:flex;justify-content:space-between">
-  <img src="./screenshots/app.gif" width="280px" style="margin: 0 auto;"/>
-  <img src="./screenshots/app.gif" width="280px" style="margin: 0 auto;"/>
+  <img src="./screenshots/go_barber_app-1.gif" width="280px" style="margin: 0 auto;"/>
+  <img src="./screenshots/go_barber_app-2.gif" width="280px" style="margin: 0 auto;"/>
 </div>
 <br />
 <img src="./screenshots/web.gif" width="100%"/>
@@ -124,7 +124,7 @@ cd go_barber_2_app
 yarn install
 ```
 
-- Open the `.env` file and set the API url (it's probably **_http://localhost:3333_**)
+- Open the `.env` file and set the API url (it's probably **_<http://localhost:3333>_**)
 
 - You may need to reverse port 8081 for metro bundler work correctly. You may need to reverse port 3333 to allow your app connect with the api. And you may need to reverse port 8097 if you are going to use Flipper to debug. So I made it simple:
 
@@ -139,6 +139,7 @@ yarn android:development
 ```
 
 - Run the Metro Bundler server if it has not started automatically
+
 ```sh
 yarn start
 ```
@@ -156,6 +157,7 @@ yarn install
 - Once again, use the `.env.example` to set the API url
 
 - Just run it:
+
 ```sh
 yarn start
 ```
@@ -172,7 +174,6 @@ Feel free to contribute on this project **(PLEASE AT LEAST LEAVE A START!!)**
 
 0. Create an issue
 
-
 ## Contact
 
 Caio Quirino Medeiros - [@caio_quirino](https://www.linkedin.com/in/caio-quirino-0a916812a/) - caio.quirino.medeiros@gmail.com
@@ -180,7 +181,6 @@ Caio Quirino Medeiros - [@caio_quirino](https://www.linkedin.com/in/caio-quirino
 My portfolio: [https://www.gitshowcase.com/caioquirinomedeiros](https://www.gitshowcase.com/caioquirinomedeiros)
 
 > If you are reading this i am very curious to know how you got here, send me a message!
-
 
 ## Acknowledgements
 
