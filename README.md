@@ -164,7 +164,7 @@ yarn start
 
 ## Contributing
 
-Feel free to contribute on this project **(PLEASE AT LEAST LEAVE A START!!)**
+Feel free to contribute on this project **(PLEASE AT LEAST LEAVE A STAR!!)**
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
