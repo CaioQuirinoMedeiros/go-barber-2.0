@@ -19,5 +19,8 @@ routes.use('/password', passwordRouter);
 routes.use('/profile', profileRouter);
 
 routes.use('/cache', cacheRouter);
+routes.get('/health', (_, response) => {
+  return response.send();
+});
 
 export default routes;
