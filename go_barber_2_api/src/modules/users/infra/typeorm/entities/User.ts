@@ -14,17 +14,17 @@ class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column('varchar')
   name: string;
 
-  @Column()
+  @Column('varchar')
   email: string;
 
-  @Column()
+  @Column('varchar')
   @Exclude()
   password: string;
 
-  @Column()
+  @Column('varchar')
   avatar: string;
 
   @CreateDateColumn()

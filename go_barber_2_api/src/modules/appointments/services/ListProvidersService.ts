@@ -1,4 +1,3 @@
-import { injectable, inject } from 'tsyringe';
 import { classToClass } from 'class-transformer';
 
 import User from '@modules/users/infra/typeorm/entities/User';
@@ -9,13 +8,9 @@ interface IRequest {
   user_id: string;
 }
 
-@injectable()
 class ListProvidersService {
   constructor(
-    @inject('UsersRepository')
     private usersRepository: IUserRepository,
-
-    @inject('CacheProvider')
     private cacheProvider: ICacheProvider,
   ) {}
 

@@ -1,4 +1,3 @@
-import { inject, injectable } from 'tsyringe';
 import sgMail, { MailService } from '@sendgrid/mail';
 
 import mailConfig from '@config/mail';
@@ -6,14 +5,10 @@ import IMailProvider from '@shared/container/providers/MailProvider/models/IMail
 import ISendMailDTO from '@shared/container/providers/MailProvider/dtos/ISendMailDTO';
 import IMailTemplateProvider from '@shared/container/providers/MailTemplateProvider/models/IMailTemplateProvider';
 
-@injectable()
 class SGMailProvider implements IMailProvider {
   private client: MailService;
 
-  constructor(
-    @inject('MailTemplateProvider')
-    private mailTemplateProvider: IMailTemplateProvider,
-  ) {
+  constructor(private mailTemplateProvider: IMailTemplateProvider) {
     this.client = sgMail;
     if (process.env.SENDGRID_API_KEY) {
       this.client.setApiKey(process.env.SENDGRID_API_KEY);

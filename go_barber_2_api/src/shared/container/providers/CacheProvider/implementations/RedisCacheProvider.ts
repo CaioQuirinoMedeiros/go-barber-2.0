@@ -1,11 +1,9 @@
-import { injectable } from 'tsyringe';
 import Redis, { Redis as RedisClient } from 'ioredis';
 
 import cacheConfig from '@config/cache';
 
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 
-@injectable()
 class RedisCacheProvider implements ICacheProvider {
   private client: RedisClient;
 

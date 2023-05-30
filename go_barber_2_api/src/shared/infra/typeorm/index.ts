@@ -1,23 +1,14 @@
+import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
+import Notification from '@modules/notifications/infra/typeorm/schemas/Notification';
+import User from '@modules/users/infra/typeorm/entities/User';
+import UserToken from '@modules/users/infra/typeorm/entities/UserToken';
 import { createConnections } from 'typeorm';
 
 createConnections([
   {
-    name: 'default',
-    type: (process.env.TYPEORM_CONNECTION as 'postgres') || 'postgres',
-    host: process.env.TYPEORM_HOST,
-    port: Number(process.env.TYPEORM_PORT),
-    username: process.env.TYPEORM_USERNAME,
-    password: process.env.TYPEORM_PASSWORD,
-    database: process.env.TYPEORM_DATABASE,
-    logging: true,
-    entities: [
-      './src/modules/**/infra/typeorm/entities/*.ts',
-      './src/modules/**/infra/typeorm/entities/*.js',
-    ],
-    migrations: ['./src/shared/infra/typeorm/migrations/*.ts'],
-    cli: {
-      migrationsDir: './src/shared/infra/typeorm/migrations',
-    },
+    type: process.env.TYPEORM_CONNECTION as 'postgres',
+    url: process.env.TYPEORM_URL,
+    entities: [User, UserToken, Appointment],
   },
   {
     name: 'mongo',
@@ -25,12 +16,12 @@ createConnections([
     url: process.env.MONGO_URL,
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    entities: ['./src/modules/**/infra/typeorm/schemas/*.ts'],
+    entities: [Notification],
   },
 ])
   .then(() => {
     console.log('Conexões com banco de dados estabelecidas');
   })
   .catch(err => {
-    console.log('Erro ao conectar', err);
+    console.log('Erro ao conectar com banco de dados', err);
   });

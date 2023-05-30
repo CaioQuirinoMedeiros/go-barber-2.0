@@ -1,5 +1,3 @@
-import { injectable, inject } from 'tsyringe';
-
 import AppError from '@shared/errors/AppError';
 import User from '@modules/users/infra/typeorm/entities/User';
 import IUserRepository from '@modules/users/repositories/IUserRepository';
@@ -14,16 +12,10 @@ interface IRequest {
   old_password?: string;
 }
 
-@injectable()
 class UpdateProfileService {
   constructor(
-    @inject('UsersRepository')
     private usersRepository: IUserRepository,
-
-    @inject('HashProvider')
     private hashProvider: IHashProvider,
-
-    @inject('CacheProvider')
     private cacheProvider: ICacheProvider,
   ) {}
 

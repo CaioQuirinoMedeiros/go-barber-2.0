@@ -1,5 +1,3 @@
-import { injectable, inject } from 'tsyringe';
-
 import AppError from '@shared/errors/AppError';
 import User from '@modules/users/infra/typeorm/entities/User';
 import IUserRepository from '@modules/users/repositories/IUserRepository';
@@ -11,16 +9,10 @@ interface IRequest {
   avatarFileName: string;
 }
 
-@injectable()
 class UpdateUserAvatarService {
   constructor(
-    @inject('UsersRepository')
     private usersRepository: IUserRepository,
-
-    @inject('StorageProvider')
     private storageProvider: IStorageProvider,
-
-    @inject('CacheProvider')
     private cacheProvider: ICacheProvider,
   ) {}
 

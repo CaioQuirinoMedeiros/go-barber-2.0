@@ -1,12 +1,9 @@
-import { injectable } from 'tsyringe';
-
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 
 interface ICacheData {
   [key: string]: string;
 }
 
-@injectable()
 class FakeCacheProvider implements ICacheProvider {
   private cache: ICacheData = {};
 

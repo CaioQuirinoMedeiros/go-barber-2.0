@@ -1,5 +1,4 @@
 import { sign } from 'jsonwebtoken';
-import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
 import authConfig from '@config/auth';
@@ -17,19 +16,12 @@ interface IResponse {
   token: string;
 }
 
-@injectable()
 class AuthenticateUserService {
   private usersRepository: IUserRepository;
 
   private hashProvider: IHashProvider;
 
-  constructor(
-    @inject('UsersRepository')
-    usersRepository: IUserRepository,
-
-    @inject('HashProvider')
-    hashProvider: IHashProvider,
-  ) {
+  constructor(usersRepository: IUserRepository, hashProvider: IHashProvider) {
     this.usersRepository = usersRepository;
     this.hashProvider = hashProvider;
   }

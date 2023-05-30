@@ -1,15 +1,14 @@
 import { Request, Response } from 'express';
-import { container } from 'tsyringe';
 import { classToClass } from 'class-transformer';
 
-import UpdateProfileService from '@modules/users/services/UpdateProfileService';
-import ShowProfileService from '@modules/users/services/ShowProfileService';
+import makeShowProfileService from '@modules/users/services/factories/makeShowProfileService';
+import makeUpdateProfileService from '@modules/users/services/factories/makeUpdateProfileService';
 
 export default class ForgotPasswordController {
   async show(request: Request, response: Response): Promise<Response> {
     const { user_id } = request;
 
-    const showProfile = container.resolve(ShowProfileService);
+    const showProfile = makeShowProfileService();
 
     const user = await showProfile.execute({ user_id });
 
@@ -20,7 +19,7 @@ export default class ForgotPasswordController {
     const { name, email, password, old_password } = request.body;
     const { user_id } = request;
 
-    const updateProfile = container.resolve(UpdateProfileService);
+    const updateProfile = makeUpdateProfileService();
 
     const user = await updateProfile.execute({
       name,

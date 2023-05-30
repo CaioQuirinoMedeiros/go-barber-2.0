@@ -1,4 +1,3 @@
-import { injectable, inject } from 'tsyringe';
 import { classToClass } from 'class-transformer';
 
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
@@ -12,13 +11,9 @@ interface IRequest {
   year: number;
 }
 
-@injectable()
 class ListProviderAppointmentsService {
   constructor(
-    @inject('AppointmentsRepository')
     private appointmentsRepository: IAppointmentsRepository,
-
-    @inject('CacheProvider')
     private cacheProvider: ICacheProvider,
   ) {}
 

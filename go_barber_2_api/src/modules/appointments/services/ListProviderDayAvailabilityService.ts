@@ -1,4 +1,3 @@
-import { injectable, inject } from 'tsyringe';
 import { getHours, isAfter } from 'date-fns';
 
 import IUsersRepository from '@modules/users/repositories/IUserRepository';
@@ -17,12 +16,9 @@ type IResponse = Array<{
   available: boolean;
 }>;
 
-@injectable()
 class ListProviderDayAvailabilityService {
   constructor(
-    @inject('AppointmentsRepository')
     private appointmentsRepository: IAppointmentsRepository,
-    @inject('UsersRepository')
     private usersRepository: IUsersRepository,
   ) {}
 
