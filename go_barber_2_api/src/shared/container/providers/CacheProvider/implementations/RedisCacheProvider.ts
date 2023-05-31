@@ -9,7 +9,7 @@ class RedisCacheProvider implements ICacheProvider {
 
   constructor() {
     try {
-      this.client = new Redis(cacheConfig.config);
+      this.client = new Redis(cacheConfig.redisURL);
     } catch (err) {
       console.log("Couldn't connect to Redis: ", { err });
     }
