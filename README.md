@@ -42,7 +42,6 @@
 - [Built With](#built-with)
 - [Installation](#installation)
 - [Contributing](#contributing)
-- [Contact](#contact)
 - [Acknowledgements](#acknowledgements)
 
 <!-- ABOUT THE PROJECT -->
@@ -90,22 +89,22 @@ cd go_barber_2_api
 yarn install
 ```
 
-- Run the tests (you don't actually have to do this, but tests are cool)
-
-```sh
-yarn test
-```
-
 - Use the `.env.example` to set the environment variables needed (you can just make a copy of that file and name it `.env`)
 
   - Here you will see that you need connection with **_postgresql_**, **_mongodb_** and **_redis_**. I recommend you use [Docker](https://www.docker.com/) to do that, but it's up to you.
   - Note that if you set **_sendgrid_** as `MAIL_DRIVER` you'll need an [Sendgrid API Key](https://signup.sendgrid.com/)
   - If you set **_ses_** as `MAIL_PROVIDER` or **_s3_** as `STORAGE_PROVIDER` you'll also need AWS Credentials
 
-- Finally, run the Node server in development mode and you are good to go (or more likely you'll first get an connection error of one of the databases, so go get it fixed :grin:)
+- Once you have the postgresql database setup, run the migrations:
 
 ```sh
-yarn dev:server
+yarn migrate
+```
+
+- Finally, run the Node server in development mode and you are good to go (you'll get an error if your database conections are not setup correctly)
+
+```sh
+yarn dev
 ```
 
 ## APP
@@ -164,7 +163,7 @@ yarn start
 
 ## Contributing
 
-Feel free to contribute on this project **(PLEASE AT LEAST LEAVE A STAR!!)**
+Feel free to contribute on this project **(and leave a star!!)**
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
@@ -172,15 +171,7 @@ Feel free to contribute on this project **(PLEASE AT LEAST LEAVE A STAR!!)**
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-0. Create an issue
-
-## Contact
-
-Caio Quirino Medeiros - [@caio_quirino](https://www.linkedin.com/in/caio-quirino-0a916812a/) - caio.quirino.medeiros@gmail.com
-
-My portfolio: [https://www.gitshowcase.com/caioquirinomedeiros](https://www.gitshowcase.com/caioquirinomedeiros)
-
-> If you are reading this i am very curious to know how you got here, send me a message!
+6. Create an issue
 
 ## Acknowledgements
 
@@ -190,7 +181,6 @@ My portfolio: [https://www.gitshowcase.com/caioquirinomedeiros](https://www.gits
 - [date-fns](https://github.com/date-fns/date-fns)
 - [multer](https://github.com/expressjs/multer)
 - [ts-node](https://github.com/TypeStrong/ts-node)
-- [tsyringe](https://github.com/microsoft/tsyringe)
 - [unform](https://github.com/Rocketseat/unform)
 - [axios](https://github.com/axios/axios)
 - [react-native-action-sheet](https://github.com/beefe/react-native-actionsheet)
@@ -202,6 +192,26 @@ My portfolio: [https://www.gitshowcase.com/caioquirinomedeiros](https://www.gits
 - [react-day-picker](https://github.com/gpbl/react-day-picker)
 - [react-spring](https://github.com/pmndrs/react-spring)
 - [yup](https://github.com/jquense/yup)
+
+---
+
+<span>
+  <img src="https://avatars.githubusercontent.com/u/48543208?s=400&u=f056bca652dc7e1619b6e275ac220a4b91a0cf88&v=4" width="60px" height="60px">
+</span>
+<a href="https://github.com/CaioQuirinoMedeiros" target="_blank">
+  <img src="https://github.com/CaioQuirinoMedeiros/Firebase-Authentication/assets/48543208/857b0dcd-fff0-4656-94ae-a0bbbec04959" width="40px" height="40px">
+</a>
+<a href="https://www.linkedin.com/in/caio-quirino-medeiros/" target="_blank">
+  <img src="https://github.com/CaioQuirinoMedeiros/Firebase-Authentication/assets/48543208/722ba77b-f540-4c13-99f4-5e1f19fb9de6" width="40px" height="40px">
+</a>
+<a href="mailto:caio.quirino.medeiros@gmail.com" target="_blank">
+  <img src="https://github.com/CaioQuirinoMedeiros/Firebase-Authentication/assets/48543208/ea06b015-d43c-44ee-8f6f-bcf79bff5635" width="40px" height="40px">
+</a>
+<a href="https://app.rocketseat.com.br/me/caio-medeiros-1562947679" target="_blank">
+  <img src="https://github.com/CaioQuirinoMedeiros/Firebase-Authentication/assets/48543208/37623ac9-9ca6-42c8-9238-16d1967eee56" width="40px" height="40px">
+</a>
+
+---
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
@@ -216,4 +226,3 @@ My portfolio: [https://www.gitshowcase.com/caioquirinomedeiros](https://www.gits
 [issues-url]: https://github.com/CaioQuirinoMedeiros/go-barber-2.0/issues
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/caio-quirino-0a916812a/
-[product-screenshot]: images/screenshot.png
