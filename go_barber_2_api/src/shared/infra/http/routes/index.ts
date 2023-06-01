@@ -22,5 +22,10 @@ routes.use('/cache', cacheRouter);
 routes.get('/health', (_, response) => {
   return response.send();
 });
+routes.use('/*', (request, reply) => {
+  return reply
+    .status(404)
+    .send({ status: 'route_not_found', message: 'No match route' });
+});
 
 export default routes;
