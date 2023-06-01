@@ -42,8 +42,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          # Upload dist repository
-          path: './dist'
+          path: ./go_barber_2_web/dist
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
