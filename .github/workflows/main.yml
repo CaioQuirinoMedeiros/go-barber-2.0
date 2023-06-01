@@ -24,6 +24,9 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: go_barber_2_web
     steps:
       - name: Checkout
         uses: actions/checkout@v3
