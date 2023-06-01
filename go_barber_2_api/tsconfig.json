@@ -1,13 +1,14 @@
 {
   "compilerOptions": {
-    "outDir": "./dist",
+    "outDir": "./build",
     "rootDir": "./src",
     "strict": true,
     "strictPropertyInitialization": false,
     "baseUrl": "./",
     "allowJs": true,
     "target": "ES2017",
-    "module": "CommonJS",
+    "module": "ES2020",
+    "moduleResolution": "nodenext",
     "paths": {
       "@modules/*": [
         "src/modules/*"

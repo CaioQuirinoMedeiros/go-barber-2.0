@@ -11,6 +11,7 @@
     "migrate": "yarn typeorm migration:run",
     "start": "node build/shared/infra/http/server.js",
     "build": "tsup  src --out-dir build --loader \".hbs=copy\"",
+    "buildTsc": "tsc -r tsconfig-paths/register",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "test": "jest --setupFiles dotenv/config"
   },
@@ -43,7 +44,7 @@
     "reflect-metadata": "^0.1.13",
     "ts-node": "^9.0.0",
     "ts-node-dev": "^1.0.0",
-    "tsconfig-paths": "^3.9.0",
+    "tsconfig-paths": "^4.2.0",
     "typeorm": "^0.2.24",
     "typescript": "^4.0.3",
     "uuidv4": "^6.0.7"

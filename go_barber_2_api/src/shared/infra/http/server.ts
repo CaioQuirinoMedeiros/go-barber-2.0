@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import { errors } from 'celebrate';
@@ -11,6 +12,7 @@ import rateLimiter from '@shared/infra/http/middlewares/rateLimiter';
 import AppError from '@shared/errors/AppError';
 
 import '@shared/infra/typeorm';
+import path from 'path';
 
 const app = express();
 
@@ -43,3 +45,14 @@ const PORT = 3333;
 app.listen(PORT, () => {
   console.log(`server running on port ${PORT}`);
 });
+
+export const forgotPasswordTemplate = path.resolve(
+  __dirname,
+  '..',
+  '..',
+  '..',
+  'modules',
+  'users',
+  'views',
+  'forgot_password.hbs',
+);

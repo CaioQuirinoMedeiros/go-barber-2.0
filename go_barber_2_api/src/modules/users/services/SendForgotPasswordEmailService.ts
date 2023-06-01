@@ -1,9 +1,8 @@
-import path from 'path';
-
 import AppError from '@shared/errors/AppError';
 import IUserRepository from '@modules/users/repositories/IUserRepository';
 import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider';
 import IUserTokenRepository from '@modules/users/repositories/IUserTokenRepository';
+import { forgotPasswordTemplate } from '@shared/infra/http/server';
 
 interface IRequest {
   email: string;
@@ -36,13 +35,6 @@ class SendForgotPasswordEmailService {
     }
 
     const userToken = await this.userTokenRepository.generate(user.id);
-
-    const forgotPasswordTemplate = path.resolve(
-      __dirname,
-      '..',
-      'views',
-      'forgot_password.hbs',
-    );
 
     await this.mailProvider.sendMail({
       to: { name: user.name, email: user.email },
