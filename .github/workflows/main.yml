@@ -22,6 +22,8 @@ jobs:
     defaults:
       run:
         working-directory: go_barber_2_web
+    env:
+      VITE_API_URL: ${{ vars.VITE_API_URL }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
