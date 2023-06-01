@@ -56,3 +56,5 @@ export const forgotPasswordTemplate = path.resolve(
   'views',
   'forgot_password.hbs',
 );
+
+console.log({ forgotPasswordTemplate });
