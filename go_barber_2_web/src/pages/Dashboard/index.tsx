@@ -23,6 +23,7 @@ import {
   Appointment,
   Calendar,
 } from './styles';
+import { capitalizeFirstLetter } from '../../utils/capitalizeFirstLetter';
 
 interface MonthAvailabilityItem {
   day: number;
@@ -170,7 +171,6 @@ const Dashboard: React.FC = () => {
           </p>
 
           {nextAppointment && (
-            // {isToday(selectedDate) && nextAppointment && (
             <NextAppointment>
               <strong>Agendamento a seguir</strong>
               <div>
@@ -235,22 +235,19 @@ const Dashboard: React.FC = () => {
         </Schedule>
         <Calendar>
           <DayPicker
-            // weekdaysShort={['D', 'S', 'T', 'Q', 'Q', 'S', 'S']}
             selected={selectedDate}
-            // months={[
-            //   'Janeiro',
-            //   'Fevereiro',
-            //   'Março',
-            //   'Abril',
-            //   'Maio',
-            //   'Junho',
-            //   'Julho',
-            //   'Agosto',
-            //   'Setembro',
-            //   'Outubro',
-            //   'Novembro',
-            //   'Dezembro'
-            // ]}
+            formatters={{
+              formatWeekdayName: date =>
+                format(date, 'eeeeee', { locale: ptBR }),
+              formatCaption: date => {
+                const monthLabel = capitalizeFirstLetter(
+                  format(date, 'MMMM', {
+                    locale: ptBR,
+                  }),
+                );
+                return `${monthLabel} ${date.getFullYear()}`;
+              },
+            }}
             onMonthChange={handleMonthChange}
             fromMonth={new Date()}
             disabled={[{ dayOfWeek: [0, 6] }, ...disabledDays]}
