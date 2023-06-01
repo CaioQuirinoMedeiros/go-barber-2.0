@@ -25,6 +25,17 @@ interface LoginResponse {
   };
 }
 
+type SignInParams = {
+  email: string;
+  password: string;
+};
+
+type SignUpParams = {
+  name: string;
+  email: string;
+  password: string;
+};
+
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 interface AuthState {
@@ -37,7 +48,7 @@ interface AuthState {
   };
 }
 
-const AuthProvider: React.FC = ({ children }) => {
+const AuthProvider = ({ children }: React.PropsWithChildren) => {
   const getInitialState = useCallback(() => {
     const tokenStorage = localStorage.getItem(TOKEN_KEY);
     const userStorage = localStorage.getItem(USER_KEY);
@@ -52,7 +63,7 @@ const AuthProvider: React.FC = ({ children }) => {
 
   const [data, setData] = useState<AuthState>(getInitialState());
 
-  const signIn = useCallback(async ({ email, password }) => {
+  const signIn = useCallback(async ({ email, password }: SignInParams) => {
     const response = await api.post<LoginResponse>('/sessions', {
       email,
       password,
@@ -68,9 +79,17 @@ const AuthProvider: React.FC = ({ children }) => {
     setData({ token, user });
   }, []);
 
-  const signUp = useCallback(async ({ name, email, password }) => {
-    await api.post('/users', { name, email, password });
-  }, []);
+  const signUp = useCallback(
+    async ({ name, email, password }: SignUpParams) => {
+      await api.post('/users', {
+        name,
+        email,
+        password,
+        password_confirmation: password,
+      });
+    },
+    [],
+  );
 
   const signOut = useCallback(() => {
     localStorage.removeItem(TOKEN_KEY);

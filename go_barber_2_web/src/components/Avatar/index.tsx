@@ -13,7 +13,7 @@ const Avatar: React.FC<AvatarProps> = props => {
   const avatarPlaceholderUrl = useMemo(() => {
     return `https://ui-avatars.com/api/?bold=true&background=232129&color=fff&size=${size}&name=${name.replace(
       /\s/g,
-      '+'
+      '+',
     )}`;
   }, [name, size]);
 

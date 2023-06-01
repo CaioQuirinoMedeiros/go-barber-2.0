@@ -1,6 +1,6 @@
-import React, { useCallback, useRef } from 'react';
+import * as React from 'react';
 import { FiArrowLeft, FiMail, FiLock, FiUser } from 'react-icons/fi';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import { object, string } from 'yup';
@@ -29,21 +29,21 @@ interface SignupDataForm {
   password: string;
 }
 
-const SignUp: React.FC = () => {
+function SignUp() {
   const { signUp } = useAuth();
   const { addToast } = useToast();
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
-  const formRef = useRef<FormHandles>(null);
+  const formRef = React.useRef<FormHandles>(null);
 
-  const handleSignUpSubmit = useCallback(
+  const handleSignUpSubmit = React.useCallback(
     async (data: SignupDataForm) => {
       formRef.current?.setErrors({});
 
       try {
         await signUpSchema.validate(data, { abortEarly: false });
-      } catch (err) {
+      } catch (err: any) {
         const errors = getValidationErrors(err);
 
         formRef.current?.setErrors(errors);
@@ -66,7 +66,7 @@ const SignUp: React.FC = () => {
           type: 'success',
         });
 
-        history.push('/');
+        navigate('/');
       } catch (err) {
         addToast({
           title: `Erro ao se cadastrar`,
@@ -75,7 +75,7 @@ const SignUp: React.FC = () => {
         });
       }
     },
-    [signUp, addToast, history]
+    [addToast, signUp, navigate],
   );
 
   return (
@@ -104,6 +104,6 @@ const SignUp: React.FC = () => {
       </Content>
     </Container>
   );
-};
+}
 
 export default SignUp;

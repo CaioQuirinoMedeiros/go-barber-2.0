@@ -5,15 +5,15 @@ interface Errors {
 }
 
 export default (yupError: ValidationError): Errors => {
-  if (process.env.NODE_ENV === 'development') {
+  if (import.meta.env.DEV) {
     console.log({ yupError });
   }
 
   return yupError.inner.reduce(
     (acc, error) => ({
       ...acc,
-      [error.path]: error.message,
+      [error.path || '']: error.message,
     }),
-    {}
+    {},
   );
 };

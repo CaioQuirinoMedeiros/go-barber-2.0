@@ -1,25 +1,64 @@
-import React from 'react';
-import { Switch } from 'react-router-dom';
-
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Login from '../pages/Login';
 import SignUp from '../pages/SignUp';
 import ForgotPassword from '../pages/ForgotPassword';
 import ResetPassword from '../pages/ResetPassword';
-import Dashboard from '../pages/Dashboard';
 import Profile from '../pages/Profile';
+import Dashboard from '../pages/Dashboard';
 
-import MyRoute from './Route';
+import { AuthRouterWrapper } from './CustomRoute';
 
-const Routes: React.FC = () => {
-  return (
-    <Switch>
-      <MyRoute path="/" component={Login} exact />
-      <MyRoute path="/signup" component={SignUp} exact />
-      <MyRoute path="/forgot-password" component={ForgotPassword} exact />
-      <MyRoute path="/reset-password" component={ResetPassword} />
-      <MyRoute path="/dashboard" component={Dashboard} exact isPrivate />
-      <MyRoute path="/profile" component={Profile} exact isPrivate />
-    </Switch>
-  );
-};
-export default Routes;
+const router = createBrowserRouter([
+  {
+    path: '/*',
+    element: (
+      <AuthRouterWrapper>
+        <Login />
+      </AuthRouterWrapper>
+    ),
+  },
+  {
+    path: '/signup',
+    element: (
+      <AuthRouterWrapper>
+        <SignUp />
+      </AuthRouterWrapper>
+    ),
+  },
+  {
+    path: '/forgot-password',
+    element: (
+      <AuthRouterWrapper>
+        <ForgotPassword />
+      </AuthRouterWrapper>
+    ),
+  },
+  {
+    path: '/reset-password',
+    element: (
+      <AuthRouterWrapper>
+        <ResetPassword />
+      </AuthRouterWrapper>
+    ),
+  },
+  {
+    path: '/dashboard',
+    element: (
+      <AuthRouterWrapper isPrivate>
+        <Dashboard />
+      </AuthRouterWrapper>
+    ),
+  },
+  {
+    path: '/profile',
+    element: (
+      <AuthRouterWrapper isPrivate>
+        <Profile />
+      </AuthRouterWrapper>
+    ),
+  },
+]);
+
+export function RootRouter() {
+  return <RouterProvider router={router} />;
+}

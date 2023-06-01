@@ -1,9 +1,9 @@
 import React, { useCallback, useRef, ChangeEvent } from 'react';
 import { FiMail, FiLock, FiUser, FiCamera, FiArrowLeft } from 'react-icons/fi';
-import { useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
-import { object, string, ref, StringSchema } from 'yup';
+import { object, string, ref } from 'yup';
 
 import { useAuth } from '../../hooks/auth';
 import { useToast } from '../../hooks/toast';
@@ -21,15 +21,16 @@ const profileSchema = object().shape({
   email: string()
     .required('E-mail obrigatório')
     .email('Digite um e-mail válido'),
-  old_password: string().when(
-    'password',
-    (password: string, schema: StringSchema) =>
-      password ? schema.required('Preencha sua senha atual') : schema
-  ),
+  old_password: string().when('password', {
+    is: (value: string) => !!value,
+    then: schema => schema.required('Preencha sua senha atual'),
+    otherwise: schema => schema,
+  }),
+
   password: string(),
   password_confirmation: string().oneOf(
-    [ref('password'), null],
-    'Confirmação incorreta'
+    [ref('password'), ''],
+    'Confirmação incorreta',
   ),
 });
 
@@ -45,8 +46,6 @@ const Profile: React.FC = () => {
   const { user, updateUser } = useAuth();
   const { addToast } = useToast();
 
-  const history = useHistory();
-
   const formRef = useRef<FormHandles>(null);
 
   const handleProfileSubmit = useCallback(
@@ -55,7 +54,7 @@ const Profile: React.FC = () => {
 
       try {
         await profileSchema.validate(data, { abortEarly: false });
-      } catch (err) {
+      } catch (err: any) {
         const errors = getValidationErrors(err);
 
         formRef.current?.setErrors(errors);
@@ -68,13 +67,8 @@ const Profile: React.FC = () => {
       }
 
       try {
-        const {
-          name,
-          email,
-          old_password,
-          password,
-          password_confirmation,
-        } = data;
+        const { name, email, old_password, password, password_confirmation } =
+          data;
 
         const formData = {
           name,
@@ -102,7 +96,7 @@ const Profile: React.FC = () => {
         });
       }
     },
-    [addToast]
+    [addToast],
   );
 
   const handleAvatarChange = useCallback(
@@ -124,7 +118,7 @@ const Profile: React.FC = () => {
         addToast({ type: 'error', title: 'Erro ao atualizar avatar' });
       }
     },
-    [addToast, updateUser]
+    [addToast, updateUser],
   );
 
   return (

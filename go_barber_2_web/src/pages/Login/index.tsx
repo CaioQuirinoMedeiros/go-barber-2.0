@@ -39,7 +39,7 @@ const Login: React.FC = () => {
 
       try {
         await loginSchema.validate(data, { abortEarly: false });
-      } catch (err) {
+      } catch (err: any) {
         const errors = getValidationErrors(err);
         formRef.current?.setErrors(errors);
 
@@ -66,7 +66,7 @@ const Login: React.FC = () => {
         });
       }
     },
-    [signIn, addToast]
+    [signIn, addToast],
   );
 
   return (

@@ -3,8 +3,8 @@ import { isToday, format, parseISO, isAfter } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 import { FiPower, FiClock } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
-import DayPicker, { DayModifiers } from 'react-day-picker';
-import 'react-day-picker/lib/style.css';
+import { DayPicker, DayModifiers } from 'react-day-picker';
+import 'react-day-picker/dist/style.css';
 
 import api from '../../services/api';
 import { useAuth } from '../../hooks/auth';
@@ -65,7 +65,7 @@ const Dashboard: React.FC = () => {
         return new Date(
           currentMonth.getFullYear(),
           currentMonth.getMonth(),
-          monthDay.day
+          monthDay.day,
         );
       });
   }, [monthAvailability, currentMonth]);
@@ -235,28 +235,26 @@ const Dashboard: React.FC = () => {
         </Schedule>
         <Calendar>
           <DayPicker
-            weekdaysShort={['D', 'S', 'T', 'Q', 'Q', 'S', 'S']}
-            selectedDays={selectedDate}
-            months={[
-              'Janeiro',
-              'Fevereiro',
-              'Março',
-              'Abril',
-              'Maio',
-              'Junho',
-              'Julho',
-              'Agosto',
-              'Setembro',
-              'Outubro',
-              'Novembro',
-              'Dezembro',
-            ]}
+            // weekdaysShort={['D', 'S', 'T', 'Q', 'Q', 'S', 'S']}
+            selected={selectedDate}
+            // months={[
+            //   'Janeiro',
+            //   'Fevereiro',
+            //   'Março',
+            //   'Abril',
+            //   'Maio',
+            //   'Junho',
+            //   'Julho',
+            //   'Agosto',
+            //   'Setembro',
+            //   'Outubro',
+            //   'Novembro',
+            //   'Dezembro'
+            // ]}
             onMonthChange={handleMonthChange}
             fromMonth={new Date()}
-            disabledDays={[{ daysOfWeek: [0, 6] }, ...disabledDays]}
-            modifiers={{
-              available: { daysOfWeek: [1, 2, 3, 4, 5] },
-            }}
+            disabled={[{ dayOfWeek: [0, 6] }, ...disabledDays]}
+            modifiers={{ available: { dayOfWeek: [1, 2, 3, 4, 5] } }}
             onDayClick={handleDateChange}
           />
         </Calendar>

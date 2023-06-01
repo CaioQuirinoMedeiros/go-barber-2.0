@@ -24,7 +24,6 @@ export const Container = styled.div<ContainerProps>`
       border-color: #c53030;
     `}
 
-
   ${({ focused }) =>
     focused &&
     css`

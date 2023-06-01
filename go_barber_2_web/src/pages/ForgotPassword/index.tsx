@@ -39,7 +39,7 @@ const ForgotPassword: React.FC = () => {
 
       try {
         await forgorPasswordSchema.validate(data, { abortEarly: false });
-      } catch (err) {
+      } catch (err: any) {
         const errors = getValidationErrors(err);
         formRef.current?.setErrors(errors);
 
@@ -70,7 +70,7 @@ const ForgotPassword: React.FC = () => {
       }
       setLoading(false);
     },
-    [addToast]
+    [addToast],
   );
 
   return (

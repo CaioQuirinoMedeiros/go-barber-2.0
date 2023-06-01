@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 import { FiLock } from 'react-icons/fi';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import { object, string, ref } from 'yup';
@@ -18,8 +18,8 @@ import api from '../../services/api';
 const resetPasswordSchema = object().shape({
   password: string().required('Senha obrigatória'),
   password_confirmation: string().oneOf(
-    [ref('password'), null],
-    'Confirmação incorreta'
+    [ref('password'), ''],
+    'Confirmação incorreta',
   ),
 });
 
@@ -28,12 +28,12 @@ interface ResetPasswordFormData {
   password_confirmation: string;
 }
 
-const Login: React.FC = () => {
+const ResetPassword: React.FC = () => {
   const { addToast } = useToast();
 
   const formRef = useRef<FormHandles>(null);
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
 
   const handleLoginSubmit = useCallback(
@@ -42,7 +42,7 @@ const Login: React.FC = () => {
 
       try {
         await resetPasswordSchema.validate(data, { abortEarly: false });
-      } catch (err) {
+      } catch (err: any) {
         const errors = getValidationErrors(err);
         formRef.current?.setErrors(errors);
 
@@ -68,7 +68,7 @@ const Login: React.FC = () => {
           token,
         });
 
-        history.push('/');
+        navigate('/');
         addToast({
           title: 'Senha resetada com sucesso!',
           type: 'success',
@@ -81,7 +81,7 @@ const Login: React.FC = () => {
         });
       }
     },
-    [addToast, history, location]
+    [addToast, navigate, location],
   );
 
   return (
@@ -110,4 +110,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default ResetPassword;

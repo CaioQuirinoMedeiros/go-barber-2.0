@@ -242,53 +242,55 @@ export const Appointment = styled.div<{ past: boolean }>`
 export const Calendar = styled.aside`
   width: 380px;
 
-  .DayPicker {
+  .rdp {
     background: #28262e;
     border-radius: 10px;
   }
 
-  .DayPicker-wrapper {
+  .rdp-wrapper {
     padding-bottom: 0;
   }
 
-  .DayPicker,
-  .DayPicker-Month {
+  .rdp,
+  .rdp-month {
     width: 100%;
     max-width: 600px;
   }
 
-  .DayPicker-Month {
+  .rdp-month {
     border-collapse: separate;
     border-spacing: 8px;
     margin: 16px;
   }
 
-  .DayPicker-Day {
+  .rdp-day {
     width: 40px;
     height: 40px;
   }
 
-  .DayPicker-Day--available:not(.DayPicker-Day--outside) {
+  .rdp-day_available:not(.rdp-day_outside) {
     background: #3e3b47;
     border-radius: 10px;
     color: #fff;
   }
 
-  .DayPicker:not(.DayPicker--interactionDisabled)
-    .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover {
+  .rdp:not(.rdp--interactionDisabled)
+    .rdp-day:not(.rdp-day_disabled):not(.rdp-day_selected):not(
+      .rdp-day_outside
+    ):hover {
     background: ${shade(0.2, '#3e3b47')};
   }
 
-  .DayPicker-Day--today {
+  .rdp-day_today {
     font-weight: normal;
   }
 
-  .DayPicker-Day--disabled {
+  .rdp-day_disabled {
     color: #666360 !important;
     background: transparent !important;
   }
 
-  .DayPicker-Day--selected {
+  .rdp-day_selected {
     background: #ff9000 !important;
     border-radius: 10px;
     color: #232129 !important;
@@ -299,7 +301,7 @@ export const Calendar = styled.aside`
     display: flex;
     justify-content: center;
 
-    .DayPicker {
+    .rdp {
       margin-bottom: 42px;
     }
   }
