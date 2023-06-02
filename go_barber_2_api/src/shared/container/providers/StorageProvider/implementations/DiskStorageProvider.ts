@@ -5,17 +5,17 @@ import configUpload from '@config/upload';
 import IStorageProvider from '@shared/container/providers/StorageProvider/models/IStorageProvider';
 
 class DiskStorageProvider implements IStorageProvider {
-  public async saveFile(file: string): Promise<string> {
+  public async saveFile(filename: string): Promise<string> {
     await fs.promises.rename(
-      path.resolve(configUpload.tmpFolder, file),
-      path.resolve(configUpload.uploadsFolder, file),
+      path.resolve(configUpload.tmpFolder, filename),
+      path.resolve(configUpload.uploadsFolder, filename),
     );
 
-    return file;
+    return filename;
   }
 
-  public async deleteFile(file: string): Promise<void> {
-    const filePath = path.resolve(configUpload.uploadsFolder, file);
+  public async deleteFile(filename: string): Promise<void> {
+    const filePath = path.resolve(configUpload.uploadsFolder, filename);
 
     try {
       await fs.promises.stat(filePath);

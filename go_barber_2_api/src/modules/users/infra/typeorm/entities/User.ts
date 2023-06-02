@@ -25,7 +25,7 @@ class User {
   password: string;
 
   @Column('varchar')
-  avatar: string;
+  avatar: string | null;
 
   @CreateDateColumn()
   created_at: Date;

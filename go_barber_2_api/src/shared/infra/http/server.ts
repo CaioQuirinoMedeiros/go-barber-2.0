@@ -2,6 +2,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import { errors } from 'celebrate';
+import morgan from 'morgan';
 import 'express-async-errors';
 import 'reflect-metadata';
 import 'dotenv/config';
@@ -16,6 +17,7 @@ import path from 'path';
 
 const app = express();
 
+app.use(morgan('tiny'));
 app.use(express.json());
 app.use(cors());
 app.use('/files', express.static(uploadConfig.uploadsFolder));
@@ -56,5 +58,3 @@ export const forgotPasswordTemplate = path.resolve(
   'views',
   'forgot_password.hbs',
 );
-
-console.log({ forgotPasswordTemplate });
