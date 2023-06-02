@@ -17,17 +17,18 @@ export type AuthStackParams = {
 
 const AuthStack = createStackNavigator<AuthStackParams>();
 
-const AuthRoutes: React.FC = () => (
-  <AuthStack.Navigator
-    screenOptions={{
-      headerShown: false,
-      cardStyle: { backgroundColor: '#312e38' },
-    }}
-  >
-    <AuthStack.Screen name="Login" component={Login} />
-    <AuthStack.Screen name="SignUp" component={SignUp} />
-    <AuthStack.Screen name="ForgotPassword" component={ForgotPassword} />
-  </AuthStack.Navigator>
-);
+function AuthRoutes() {
+  return (
+    <AuthStack.Navigator
+      screenOptions={{
+        headerShown: false,
+        cardStyle: { backgroundColor: '#312e38' },
+      }}>
+      <AuthStack.Screen name="Login" component={Login} />
+      <AuthStack.Screen name="SignUp" component={SignUp} />
+      <AuthStack.Screen name="ForgotPassword" component={ForgotPassword} />
+    </AuthStack.Navigator>
+  );
+}
 
 export default AuthRoutes;

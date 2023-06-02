@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useState } from 'react';
+import * as React from 'react';
 import { Image, TextInput } from 'react-native';
 import {
   RouteProp,
@@ -39,41 +39,42 @@ interface LoginFormData {
   password: string;
 }
 
-const Login: React.FC = () => {
+function Login() {
   const { signIn } = useAuth();
   const route = useRoute<RouteProp<AuthStackParams, 'Login'>>();
-  const navigation = useNavigation<
-    StackNavigationProp<AuthStackParams, 'Login'>
-  >();
+  const navigation =
+    useNavigation<StackNavigationProp<AuthStackParams, 'Login'>>();
 
-  const [fetching, setFetching] = useState(false);
+  const [fetching, setFetching] = React.useState(false);
 
-  const passwordRef = useRef<TextInput>(null);
-  const formRef = useRef<FormHandles>(null);
+  const passwordRef = React.useRef<TextInput>(null);
+  const formRef = React.useRef<FormHandles>(null);
 
   useFocusEffect(
-    useCallback(() => {
-      formRef.current?.setFieldValue('email', route.params?.email);
-    }, [])
+    React.useCallback(() => {
+      if (route.params?.email) {
+        formRef.current?.setFieldValue('email', route.params?.email);
+      }
+    }, [route.params?.email]),
   );
 
-  const handleForgotPassword = useCallback(() => {
+  const handleForgotPassword = React.useCallback(() => {
     const formData = formRef.current?.getData() as LoginFormData;
     navigation.navigate('ForgotPassword', { email: formData.email });
   }, [navigation]);
 
-  const handleSignUp = useCallback(() => {
+  const handleSignUp = React.useCallback(() => {
     navigation.navigate('SignUp');
   }, [navigation]);
 
-  const handleLoginSubmit = useCallback(
+  const handleLoginSubmit = React.useCallback(
     async (data: LoginFormData) => {
       setFetching(true);
       formRef.current?.setErrors({});
 
       try {
         await loginSchema.validate(data, { abortEarly: false });
-      } catch (err) {
+      } catch (err: any) {
         const errors = getValidationErrors(err);
         formRef.current?.setErrors(errors);
         setFetching(false);
@@ -90,66 +91,64 @@ const Login: React.FC = () => {
       }
       setFetching(false);
     },
-    [signIn]
+    [signIn],
   );
 
   return (
-    <>
-      <Screen>
-        <Scrollable keyboardShouldPersistTaps="handled">
-          <Image source={logo} />
+    <Screen keyboardOffset safeTop>
+      <Scrollable keyboardShouldPersistTaps="handled">
+        <Image source={logo} />
 
-          <Title bold>Faça seu logon</Title>
+        <Title bold>Faça seu logon</Title>
 
-          <Form
-            onSubmit={handleLoginSubmit}
-            ref={formRef}
-            initialData={{ email: route.params?.email }}
-          >
-            <Input
-              name="email"
-              icon="mail"
-              placeholder="E-mail"
-              keyboardType="email-address"
-              autoCorrect={false}
-              autoCapitalize="none"
-              blurOnSubmit={false}
-              returnKeyType="next"
-              onSubmitEditing={() => {
-                passwordRef.current && passwordRef.current.focus();
-              }}
-            />
-            <Input
-              name="password"
-              icon="lock"
-              placeholder="Senha"
-              secureTextEntry
-              onSubmitEditing={() => {
-                formRef.current?.submitForm();
-              }}
-              returnKeyType="send"
-              ref={passwordRef}
-            />
-            <Button
-              loading={fetching}
-              onPress={() => {
-                formRef.current?.submitForm();
-              }}
-            >
-              Entrar
-            </Button>
-          </Form>
+        <Form
+          onSubmit={handleLoginSubmit}
+          ref={formRef}
+          style={{ marginHorizontal: 24 }}
+          initialData={{ email: route.params?.email }}>
+          <Input
+            name="email"
+            icon="mail"
+            placeholder="E-mail"
+            keyboardType="email-address"
+            autoCorrect={false}
+            autoCapitalize="none"
+            blurOnSubmit={false}
+            returnKeyType="next"
+            onSubmitEditing={() => {
+              passwordRef.current && passwordRef.current.focus();
+            }}
+          />
+          <Input
+            name="password"
+            icon="lock"
+            placeholder="Senha"
+            secureTextEntry
+            onSubmitEditing={() => {
+              formRef.current?.submitForm();
+            }}
+            returnKeyType="send"
+            ref={passwordRef}
+          />
+          <Button
+            loading={fetching}
+            onPress={() => {
+              formRef.current?.submitForm();
+            }}>
+            Entrar
+          </Button>
+        </Form>
 
-          <ForgotPassword onPress={handleForgotPassword}>
-            Esqueci minha senha
-          </ForgotPassword>
-        </Scrollable>
-      </Screen>
-      <CreateAccount icon="log-in" onPress={handleSignUp}>
-        Criar conta
-      </CreateAccount>
-    </>
+        <ForgotPassword onPress={handleForgotPassword}>
+          Esqueci minha senha
+        </ForgotPassword>
+
+        <CreateAccount icon="log-in" onPress={handleSignUp}>
+          Criar conta
+        </CreateAccount>
+      </Scrollable>
+    </Screen>
   );
-};
+}
 
 export default Login;

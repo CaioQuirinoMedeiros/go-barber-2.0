@@ -1,24 +1,18 @@
 import styled from 'styled-components/native';
-import { Platform } from 'react-native';
 
 import MyText from '../../components/Text';
 import MyInput from '../../components/Input';
 import MyButton from '../../components/Button';
 import MyTextButton from '../../components/TextButton';
+import MyScreen from '../../components/Screen';
 
-export const Container = styled.KeyboardAvoidingView.attrs({
-  behavior: Platform.OS === 'ios' ? 'padding' : undefined,
-  enabled: true,
-})`
-  flex: 1;
-  padding: 0 30px;
-`;
+export const Screen = styled(MyScreen)``;
 
 export const Scrollable = styled.ScrollView.attrs({
   showsVerticalScrollIndicator: false,
   contentContainerStyle: {
     flexGrow: 1,
-    paddingBottom: 30,
+    padding: 24,
     alignItems: 'center',
     justifyContent: 'center',
   },

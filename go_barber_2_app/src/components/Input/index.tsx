@@ -2,7 +2,6 @@ import React, {
   useEffect,
   useRef,
   useImperativeHandle,
-  forwardRef,
   useState,
   useCallback,
 } from 'react';
@@ -24,10 +23,10 @@ interface InputRef {
   focus(): void;
 }
 
-const Input: React.RefForwardingComponent<InputRef, InputProps> = (
+const Input = React.forwardRef<InputRef, InputProps>(function Input_(
   props,
-  ref
-) => {
+  ref,
+) {
   const { style, icon, name, ...rest } = props;
 
   const [isFocused, setIsFocused] = useState(false);
@@ -93,6 +92,6 @@ const Input: React.RefForwardingComponent<InputRef, InputProps> = (
       />
     </Container>
   );
-};
+});
 
-export default forwardRef(Input);
+export default Input;

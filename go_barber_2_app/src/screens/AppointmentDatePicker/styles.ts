@@ -1,5 +1,4 @@
 import styled from 'styled-components/native';
-import { getBottomSpace } from 'react-native-iphone-x-helper';
 import { Dimensions, FlatList } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import {
@@ -32,11 +31,7 @@ const itemSize =
     6 * marginBetweenitems) /
   7;
 
-export const Container = styled(MyScreen).attrs({
-  contentContainerStyle: {
-    paddingBottom: getBottomSpace(),
-  },
-})``;
+export const Container = styled(MyScreen)``;
 
 export const Header = styled.View`
   padding: 24px;
@@ -65,9 +60,7 @@ export const ProvidersListContainer = styled.View`
   height: 112px;
 `;
 
-export const ProvidersList = styled(
-  FlatList as new () => FlatList<Provider>
-).attrs({
+export const ProvidersList = styled(FlatList<Provider>).attrs({
   horizontal: true,
   showsHorizontalScrollIndicator: false,
   contentContainerStyle: {
@@ -76,9 +69,9 @@ export const ProvidersList = styled(
   },
 })``;
 
-export const ProviderContainer = styled(MyButtonContainer)<
-  ProviderContainerProps
->`
+export const ProviderContainer = styled(
+  MyButtonContainer,
+)<ProviderContainerProps>`
   flex-direction: row;
   align-items: center;
   padding: 8px 12px;
@@ -164,7 +157,7 @@ export const CalendarHeader = styled.View`
 export const CalendarIconButton = styled(MyIconButton).attrs(
   ({ highlight }: CalendarIconProps) => ({
     color: highlight ? '#ff9000' : undefined,
-  })
+  }),
 )`
   align-self: stretch;
   padding: 0 16px;
@@ -198,14 +191,13 @@ export const CalendarDateItem = styled(MyButton).attrs(
       bold: false,
     },
     enabled: !disabled,
-  })
+  }),
 )`
   width: ${itemSize}px;
   height: ${itemSize}px;
   padding: 0;
   margin-bottom: ${marginBetweenitems}px;
   background: ${({ disabled, active }: DateItemProps) =>
-    // eslint-disable-next-line no-nested-ternary
     disabled ? 'transparent' : active ? '#ff9000' : '#3E3B47'};
 `;
 

@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useState } from 'react';
+import * as React from 'react';
 import { Image, TextInput } from 'react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
@@ -12,7 +12,7 @@ import alert from '../../utils/alert';
 import api from '../../services/api';
 import { AuthStackParams } from '../../routes/auth.routes';
 
-import { Container, Scrollable, Title, Input, Button, Login } from './styles';
+import { Screen, Scrollable, Title, Input, Button, Login } from './styles';
 
 const forgotPasswordSchema = object().shape({
   email: string()
@@ -26,27 +26,26 @@ interface ForgotPasswordFormData {
 
 const ForgotPassword: React.FC = () => {
   const route = useRoute<RouteProp<AuthStackParams, 'ForgotPassword'>>();
-  const navigation = useNavigation<
-    StackNavigationProp<AuthStackParams, 'ForgotPassword'>
-  >();
+  const navigation =
+    useNavigation<StackNavigationProp<AuthStackParams, 'ForgotPassword'>>();
 
-  const [sending, setFetching] = useState(false);
+  const [sending, setFetching] = React.useState(false);
 
-  const passwordRef = useRef<TextInput>(null);
-  const formRef = useRef<FormHandles>(null);
+  const passwordRef = React.useRef<TextInput>(null);
+  const formRef = React.useRef<FormHandles>(null);
 
-  const handleLogin = useCallback(() => {
-    navigation.navigate('Login');
+  const handleLogin = React.useCallback(() => {
+    navigation.navigate('Login', { email: undefined });
   }, [navigation]);
 
-  const handleForgotPasswordSubmit = useCallback(
+  const handleForgotPasswordSubmit = React.useCallback(
     async (data: ForgotPasswordFormData) => {
       setFetching(true);
       formRef.current?.setErrors({});
 
       try {
         await forgotPasswordSchema.validate(data, { abortEarly: false });
-      } catch (err) {
+      } catch (err: any) {
         const errors = getValidationErrors(err);
         formRef.current?.setErrors(errors);
       }
@@ -67,11 +66,11 @@ const ForgotPassword: React.FC = () => {
       }
       setFetching(false);
     },
-    [handleLogin]
+    [handleLogin],
   );
 
   return (
-    <Container>
+    <Screen safeTop>
       <Scrollable keyboardShouldPersistTaps="handled">
         <Image source={logo} />
 
@@ -80,8 +79,7 @@ const ForgotPassword: React.FC = () => {
         <Form
           onSubmit={handleForgotPasswordSubmit}
           ref={formRef}
-          initialData={{ email: route.params.email }}
-        >
+          initialData={{ email: route.params.email }}>
           <Input
             name="email"
             icon="mail"
@@ -99,15 +97,14 @@ const ForgotPassword: React.FC = () => {
             loading={sending}
             onPress={() => {
               formRef.current?.submitForm();
-            }}
-          >
+            }}>
             Enviar
           </Button>
         </Form>
 
         <Login onPress={handleLogin}>Fazer login</Login>
       </Scrollable>
-    </Container>
+    </Screen>
   );
 };
 

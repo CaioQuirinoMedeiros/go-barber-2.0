@@ -41,7 +41,7 @@ export const asyncAlert = (options: AsyncAlertOptions): Promise<any> => {
             resolve(button.value);
           },
         })),
-      rest
+      rest,
     );
   });
 };

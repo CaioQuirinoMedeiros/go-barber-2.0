@@ -1,5 +1,5 @@
+import * as React from 'react';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import React, { useCallback, useState, useEffect } from 'react';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
 import alert from '../../utils/alert';
@@ -31,10 +31,10 @@ const Dashboard: React.FC = () => {
 
   const navigation = useNavigation<NavigationProp<AppStackParams>>();
 
-  const [providers, setProviders] = useState<Provider[]>([]);
-  const [fetching, setFetching] = useState(false);
+  const [providers, setProviders] = React.useState<Provider[]>([]);
+  const [fetching, setFetching] = React.useState(false);
 
-  const getProviders = useCallback(async () => {
+  const getProviders = React.useCallback(async () => {
     try {
       setFetching(true);
       const { data } = await api.getProviders();
@@ -46,19 +46,19 @@ const Dashboard: React.FC = () => {
     }
   }, []);
 
-  useEffect(() => {
+  React.useEffect(() => {
     getProviders();
   }, [getProviders]);
 
-  const handleSelectProvider = useCallback(
+  const handleSelectProvider = React.useCallback(
     (providerId: string) => {
       navigation.navigate('AppointmentDatePicker', { providerId });
     },
-    [navigation]
+    [navigation],
   );
 
   return (
-    <Container safe statusBarProps={{ backgroundColor: '#28262e' }}>
+    <Container safeTop statusBarProps={{ backgroundColor: '#28262e' }}>
       <Header>
         <HeaderTitle>
           Bem vindo,
@@ -96,8 +96,7 @@ const Dashboard: React.FC = () => {
           <ProviderContainer
             onPress={() => {
               handleSelectProvider(provider.id);
-            }}
-          >
+            }}>
             <ProviderAvatar
               size={72}
               nome={provider.name}

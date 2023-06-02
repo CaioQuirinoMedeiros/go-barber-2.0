@@ -6,46 +6,52 @@ import {
   StatusBar,
   Platform,
 } from 'react-native';
-import { useSafeArea } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFocusEffect } from '@react-navigation/native';
 
 import { ScreenProps } from './props';
-import { offsets, styles } from './styles';
+import { styles } from './styles';
 
 const isAndroid = Platform.OS === 'android';
 
-const Screen: React.FC<ScreenProps> = props => {
+const keyboardVerticalOffset = Platform.select({
+  ios: 100,
+  default: 76,
+});
+
+function Screen(props: ScreenProps) {
   const {
     scroll,
     style,
-    safe,
+    safeTop,
     children,
     keyboardOffset,
     statusBarProps,
     ...rest
   } = props;
 
-  const insets = useSafeArea();
-  const insetStyle = { paddingTop: safe && isAndroid ? insets.top : 0 };
+  const insets = useSafeAreaInsets();
+  const insetStyle = { paddingTop: safeTop && isAndroid ? insets.top : 0 };
 
   useFocusEffect(
     useCallback(() => {
       StatusBar.setBarStyle(statusBarProps?.barStyle || 'light-content');
       isAndroid &&
         StatusBar.setBackgroundColor(
-          statusBarProps?.backgroundColor || 'transparent'
+          statusBarProps?.backgroundColor || 'transparent',
         );
       isAndroid &&
         StatusBar.setTranslucent(statusBarProps?.translucent || true);
-    }, [statusBarProps])
+    }, [statusBarProps]),
   );
 
   return (
     <KeyboardAvoidingView
       style={[styles.container, insetStyle]}
       behavior={isAndroid ? undefined : 'padding'}
-      keyboardVerticalOffset={offsets[keyboardOffset || 'none']}
-    >
+      keyboardVerticalOffset={
+        keyboardOffset ? keyboardVerticalOffset : undefined
+      }>
       <StatusBar translucent barStyle="light-content" {...statusBarProps} />
 
       {scroll ? (
@@ -53,8 +59,7 @@ const Screen: React.FC<ScreenProps> = props => {
           style={[styles.container, style]}
           contentContainerStyle={styles.scrollViewContainer}
           keyboardShouldPersistTaps="handled"
-          {...rest}
-        >
+          {...rest}>
           {children}
         </ScrollView>
       ) : (
@@ -64,6 +69,6 @@ const Screen: React.FC<ScreenProps> = props => {
       )}
     </KeyboardAvoidingView>
   );
-};
+}
 
 export default Screen;

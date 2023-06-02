@@ -25,7 +25,7 @@ export type AppStackParams = {
 
 const AppStack = createStackNavigator<AppStackParams>();
 
-const AuthRoutes: React.FC = () => {
+function AuthRoutes() {
   const { signOut } = useAuth();
 
   return (
@@ -37,8 +37,7 @@ const AuthRoutes: React.FC = () => {
         headerTitleAlign: 'center',
         headerTitleStyle: { fontFamily: 'RobotoSlab-Medium' },
         headerTintColor: '#f4ede8',
-      }}
-    >
+      }}>
       <AppStack.Screen name="Dashboard" component={Dashboard} />
       <AppStack.Screen
         name="AppointmentDatePicker"
@@ -105,6 +104,6 @@ const AuthRoutes: React.FC = () => {
       />
     </AppStack.Navigator>
   );
-};
+}
 
 export default AuthRoutes;

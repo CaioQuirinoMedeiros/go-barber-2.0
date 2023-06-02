@@ -10,5 +10,5 @@ export default (yupError: ValidationError): Errors =>
       ...acc,
       [error.path]: error.message,
     }),
-    {}
+    {},
   );

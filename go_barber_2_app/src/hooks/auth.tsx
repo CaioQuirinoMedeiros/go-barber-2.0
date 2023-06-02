@@ -33,6 +33,17 @@ interface AuthContextData {
   updateUser(user: User): void;
 }
 
+type SignInParams = {
+  email: string;
+  password: string;
+};
+
+type SignUpParams = {
+  name: string;
+  email: string;
+  password: string;
+};
+
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 interface AuthState {
@@ -40,7 +51,7 @@ interface AuthState {
   user: User;
 }
 
-const AuthProvider: React.FC = ({ children }) => {
+function AuthProvider({ children }: React.PropsWithChildren) {
   const [data, setData] = useState<AuthState>({} as AuthState);
   const [loading, setLoading] = useState(true);
 
@@ -61,7 +72,7 @@ const AuthProvider: React.FC = ({ children }) => {
     getInitialState();
   }, []);
 
-  const signIn = useCallback(async ({ email, password }) => {
+  const signIn = useCallback(async ({ email, password }: SignInParams) => {
     const response = await api.login({
       email,
       password,
@@ -77,9 +88,12 @@ const AuthProvider: React.FC = ({ children }) => {
     setData({ token, user });
   }, []);
 
-  const signUp = useCallback(async ({ name, email, password }) => {
-    await api.signup({ name, email, password });
-  }, []);
+  const signUp = useCallback(
+    async ({ name, email, password }: SignUpParams) => {
+      await api.signup({ name, email, password });
+    },
+    [],
+  );
 
   const signOut = useCallback(async () => {
     await AsyncStorage.multiRemove([TOKEN_KEY, USER_KEY]);
@@ -97,12 +111,11 @@ const AuthProvider: React.FC = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user: data.user, signIn, signUp, signOut, loading, updateUser }}
-    >
+      value={{ user: data.user, signIn, signUp, signOut, loading, updateUser }}>
       {children}
     </AuthContext.Provider>
   );
-};
+}
 
 const useAuth = (): AuthContextData => {
   const authContext = useContext(AuthContext);

@@ -34,9 +34,7 @@ export const ProfileButton = styled.TouchableOpacity``;
 
 export const UserAvatar = styled(MyAvatar)``;
 
-export const ProvidersList = styled(
-  FlatList as new () => FlatList<Provider>
-).attrs({
+export const ProvidersList = styled(FlatList<Provider>).attrs({
   contentContainerStyle: {
     paddingTop: 32,
     paddingBottom: 16,

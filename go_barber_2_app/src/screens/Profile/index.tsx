@@ -1,12 +1,11 @@
-/* eslint-disable no-empty */
-import React, { useRef, useCallback, useState, useMemo } from 'react';
+import * as React from 'react';
 import { View, TextInput, ActivityIndicator } from 'react-native';
 import ImagePicker, { Options } from 'react-native-image-crop-picker';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import * as Yup from 'yup';
-import ActionSheet from 'react-native-actionsheet';
+import { useActionSheet } from '@expo/react-native-action-sheet';
 
 import {
   requestCameraPermission,
@@ -48,18 +47,18 @@ const imageCommonOptions: Options = {
 
 const Profile: React.FC = () => {
   const { user, updateUser } = useAuth();
-  const formRef = useRef<FormHandles>(null);
+  const { showActionSheetWithOptions } = useActionSheet();
 
-  const [updatingAvatar, setUpdatingAvatar] = useState(false);
-  const [updatingProfile, setUpdatingProfile] = useState(false);
+  const [updatingAvatar, setUpdatingAvatar] = React.useState(false);
+  const [updatingProfile, setUpdatingProfile] = React.useState(false);
 
-  const actionSheetRef = useRef<ActionSheet>(null);
-  const emailInputRef = useRef<TextInput>(null);
-  const passwordInputRef = useRef<TextInput>(null);
-  const newPasswordInputRef = useRef<TextInput>(null);
-  const confirmPasswordInputRef = useRef<TextInput>(null);
+  const formRef = React.useRef<FormHandles>(null);
+  const emailInputRef = React.useRef<TextInput>(null);
+  const passwordInputRef = React.useRef<TextInput>(null);
+  const newPasswordInputRef = React.useRef<TextInput>(null);
+  const confirmPasswordInputRef = React.useRef<TextInput>(null);
 
-  const handleSaveProfile = useCallback(async (data: ProfileFormData) => {
+  const handleSaveProfile = React.useCallback(async (data: ProfileFormData) => {
     try {
       setUpdatingProfile(true);
       formRef.current?.setErrors({});
@@ -71,17 +70,15 @@ const Profile: React.FC = () => {
           .email('Digite um e-mail válido'),
         old_password: Yup.string(),
         password: Yup.string().when('old_password', {
-          is: val => !!val.length,
-          then: Yup.string().required('Campo obrigatório'),
-          otherwise: Yup.string(),
+          is: (val: string) => !!val?.length,
+          then: _schema => _schema.required('Campo obrigatório'),
         }),
         password_confirmation: Yup.string()
           .when('old_password', {
-            is: val => !!val.length,
-            then: Yup.string().required('Campo obrigatório'),
-            otherwise: Yup.string(),
+            is: (val: string) => !!val?.length,
+            then: _schema => _schema.required('Campo obrigatório'),
           })
-          .oneOf([Yup.ref('password'), null], 'Confirmação incorreta'),
+          .oneOf([Yup.ref('password'), ''], 'Confirmação incorreta'),
       });
 
       await schema.validate(data, {
@@ -122,25 +119,26 @@ const Profile: React.FC = () => {
     }
   }, []);
 
-  const uploadAvatar = useCallback(
+  const uploadAvatar = React.useCallback(
     async (image: ImageDTO) => {
       try {
         setUpdatingAvatar(true);
-        // eslint-disable-next-line no-undef
+
         const formData = new FormData();
 
         const filePaths = image.uri.split('/');
+        const filename = filePaths[filePaths.length - 1];
 
         formData.append('avatar', {
           type: image.type,
           uri: image.uri,
-          name: filePaths[filePaths.length - 1],
+          name: filename,
         });
 
         const response = await api.updateAvatar(formData);
 
         updateUser(response.data);
-      } catch (err) {
+      } catch (err: any) {
         alert({
           title: 'Erro',
           message: 'Houve um erro ao atualizar a foto, tente novamente',
@@ -149,10 +147,10 @@ const Profile: React.FC = () => {
         setUpdatingAvatar(false);
       }
     },
-    [updateUser]
+    [updateUser],
   );
 
-  const handleOpenGallery = useCallback(async () => {
+  const handleOpenGallery = React.useCallback(async () => {
     try {
       const cameraGranted = await requestCameraPermission();
       const galeriaGranted = await requestGaleriaPermission();
@@ -170,10 +168,12 @@ const Profile: React.FC = () => {
         type: image.mime,
         name: image.filename || imagePaths[imagePaths.length - 1],
       });
-    } catch {}
+    } catch {
+      // falha quando cancela o picker?
+    }
   }, [uploadAvatar]);
 
-  const handleCamera = useCallback(async () => {
+  const handleCamera = React.useCallback(async () => {
     try {
       const cameraGranted = await requestCameraPermission();
 
@@ -193,10 +193,12 @@ const Profile: React.FC = () => {
         type: image.mime,
         name: image.filename || imagePaths[imagePaths.length - 1],
       });
-    } catch {}
+    } catch {
+      // Falha quando cancela camera?
+    }
   }, [uploadAvatar]);
 
-  const handleRemoveAvatar = useCallback(async () => {
+  const handleRemoveAvatar = React.useCallback(async () => {
     try {
       setUpdatingAvatar(true);
       await api.removerAvatar();
@@ -212,23 +214,37 @@ const Profile: React.FC = () => {
     }
   }, [updateUser, user]);
 
-  const actionSheetOptions = useMemo(() => {
-    return [
+  function handleShowActionsheet() {
+    const options = [
       { label: 'Abrir galeria', action: handleOpenGallery },
       { label: 'Tirar uma foto', action: handleCamera },
-      { label: 'Remover foto', action: handleRemoveAvatar },
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      { label: 'Cancelar', action: () => {} },
+      { label: 'Cancelar', action: () => undefined },
     ];
-  }, [handleCamera, handleOpenGallery, handleRemoveAvatar]);
+    const possuiFoto = !!user?.avatar_url;
+    if (possuiFoto) {
+      options.unshift({ label: 'Remover foto', action: handleRemoveAvatar });
+    }
+
+    showActionSheetWithOptions(
+      {
+        options: options.map(option => option.label),
+        cancelButtonIndex: options.length,
+        destructiveButtonIndex: possuiFoto ? 0 : undefined,
+      },
+      selectedIndex => {
+        if (typeof selectedIndex !== 'number') return;
+
+        const selectedOption = options[selectedIndex];
+        if (selectedOption?.action) {
+          selectedOption.action();
+        }
+      },
+    );
+  }
 
   return (
     <Container scroll>
-      <AvatarContainer
-        onPress={() => {
-          actionSheetRef.current?.show();
-        }}
-      >
+      <AvatarContainer onPress={handleShowActionsheet}>
         <Avatar
           size={186}
           nome={user.name}
@@ -321,20 +337,9 @@ const Profile: React.FC = () => {
         enabled={!updatingProfile}
         onPress={() => {
           formRef.current?.submitForm();
-        }}
-      >
+        }}>
         Confirmar mudanças
       </Button>
-
-      <ActionSheet
-        ref={actionSheetRef}
-        options={actionSheetOptions.map(option => option.label)}
-        cancelButtonIndex={3}
-        destructiveButtonIndex={2}
-        onPress={index => {
-          actionSheetOptions[index].action();
-        }}
-      />
     </Container>
   );
 };

@@ -1,7 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
-/* eslint-disable react/jsx-wrap-multilines */
-/* eslint-disable import/no-duplicates */
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import * as React from 'react';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {
   eachDayOfInterval,
@@ -23,7 +20,7 @@ import {
 } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RefreshControl } from 'react-native';
+import { RefreshControl, ListRenderItemInfo } from 'react-native';
 import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
 
 import { upperCaseFirstLetter } from '../../utils/upperCaseFirstLetter';
@@ -78,45 +75,44 @@ const minimumDate = () => {
 const AppointmentDatePicker: React.FC = () => {
   const { user } = useAuth();
   const route = useRoute<RouteProp<AppStackParams, 'AppointmentDatePicker'>>();
-  const navigation = useNavigation<
-    StackNavigationProp<AppStackParams, 'AppointmentDatePicker'>
-  >();
+  const navigation =
+    useNavigation<
+      StackNavigationProp<AppStackParams, 'AppointmentDatePicker'>
+    >();
   const { providerId } = route.params;
 
-  const [selectedProviderId, setSelectedProviderId] = useState<string>(
-    providerId
-  );
-  const [calendarDate, setCalendarDate] = useState(new Date());
+  const [selectedProviderId, setSelectedProviderId] =
+    React.useState<string>(providerId);
+  const [calendarDate, setCalendarDate] = React.useState(new Date());
 
-  const [fetchingMonthAvailability, setFetchingMonthAvailability] = useState(
-    false
-  );
-  const [, setFetchingDayAvailability] = useState(false);
+  const [fetchingMonthAvailability, setFetchingMonthAvailability] =
+    React.useState(false);
+  const [, setFetchingDayAvailability] = React.useState(false);
 
-  const [selectedDate, setSelectedDate] = useState(minimumDate());
-  const [selectedHour, setSelectedHour] = useState(0);
+  const [selectedDate, setSelectedDate] = React.useState(minimumDate());
+  const [selectedHour, setSelectedHour] = React.useState(0);
 
-  const [fetchingProviders, setFetchingProviders] = useState(false);
+  const [fetchingProviders, setFetchingProviders] = React.useState(false);
 
-  const [providers, setProviders] = useState<Provider[]>([]);
-  const [dayAvailability, setDayAvailability] = useState<DayAvailabilityItem[]>(
-    []
-  );
-  const [monthAvailability, setMonthAvailability] = useState<
+  const [providers, setProviders] = React.useState<Provider[]>([]);
+  const [dayAvailability, setDayAvailability] = React.useState<
+    DayAvailabilityItem[]
+  >([]);
+  const [monthAvailability, setMonthAvailability] = React.useState<
     MonthAvailabilityItem[]
   >([]);
 
-  const selectedProvider = useMemo(() => {
+  const selectedProvider = React.useMemo(() => {
     return providers.find(provider => provider.id === selectedProviderId);
   }, [providers, selectedProviderId]);
 
-  const calendarMonthText = useMemo(() => {
+  const calendarMonthText = React.useMemo(() => {
     return upperCaseFirstLetter(
-      format(calendarDate, 'MMMM yyyy', { locale: ptBR })
+      format(calendarDate, 'MMMM yyyy', { locale: ptBR }),
     );
   }, [calendarDate]);
 
-  const calendar = useMemo(() => {
+  const calendar = React.useMemo(() => {
     const daysOfMonth = eachDayOfInterval({
       start: startOfMonth(calendarDate),
       end: endOfMonth(calendarDate),
@@ -148,13 +144,13 @@ const AppointmentDatePicker: React.FC = () => {
     });
   }, [calendarDate]);
 
-  const selectedDateCalendarDateDifference = useMemo(() => {
+  const selectedDateCalendarDateDifference = React.useMemo(() => {
     return isSameMonth(calendarDate, selectedDate)
       ? 0
       : differenceInDays(calendarDate, selectedDate);
   }, [calendarDate, selectedDate]);
 
-  const getProviders = useCallback(async () => {
+  const getProviders = React.useCallback(async () => {
     try {
       setFetchingProviders(true);
       const { data } = await api.getProviders();
@@ -166,7 +162,7 @@ const AppointmentDatePicker: React.FC = () => {
     }
   }, []);
 
-  const getProviderMonthAvailability = useCallback(async () => {
+  const getProviderMonthAvailability = React.useCallback(async () => {
     try {
       setFetchingMonthAvailability(true);
       const { data } = await api.getProviderMonthAvailability({
@@ -182,7 +178,7 @@ const AppointmentDatePicker: React.FC = () => {
     }
   }, [calendarDate, selectedProviderId]);
 
-  const getProviderDayAvailability = useCallback(async () => {
+  const getProviderDayAvailability = React.useCallback(async () => {
     try {
       setFetchingDayAvailability(true);
       const { data } = await api.getProviderDayAvailability({
@@ -200,23 +196,23 @@ const AppointmentDatePicker: React.FC = () => {
     }
   }, [selectedDate, selectedProviderId]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     getProviders();
   }, [getProviders]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     getProviderMonthAvailability();
   }, [getProviderMonthAvailability]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     getProviderDayAvailability();
   }, [getProviderDayAvailability]);
 
-  const handleSelectProvider = useCallback((provider: Provider) => {
+  const handleSelectProvider = React.useCallback((provider: Provider) => {
     setSelectedProviderId(provider.id);
   }, []);
 
-  const handleCreateAppointment = useCallback(async () => {
+  const handleCreateAppointment = React.useCallback(async () => {
     try {
       const appointmentDate = new Date(selectedDate);
 
@@ -247,7 +243,7 @@ const AppointmentDatePicker: React.FC = () => {
     selectedProvider,
   ]);
 
-  const morningAvailability = useMemo(() => {
+  const morningAvailability = React.useMemo(() => {
     return dayAvailability
       .filter(({ hour }) => hour < 12)
       .map(({ hour, available }) => ({
@@ -257,7 +253,7 @@ const AppointmentDatePicker: React.FC = () => {
       }));
   }, [dayAvailability]);
 
-  const afternoonAvailability = useMemo(() => {
+  const afternoonAvailability = React.useMemo(() => {
     return dayAvailability
       .filter(({ hour }) => hour >= 12)
       .map(({ hour, available }) => ({
@@ -267,9 +263,33 @@ const AppointmentDatePicker: React.FC = () => {
       }));
   }, [dayAvailability]);
 
+  const renderProvider = React.useCallback(
+    (info: ListRenderItemInfo<Provider>) => {
+      const { item: provider } = info;
+
+      return (
+        <ProviderContainer
+          selected={provider.id === selectedProviderId}
+          onPress={() => {
+            handleSelectProvider(provider);
+          }}>
+          <ProviderAvatar
+            size={32}
+            nome={provider.name}
+            source={{ uri: provider.avatar_url || undefined }}
+          />
+          <ProviderName bold selected={provider.id === selectedProviderId}>
+            {provider.name}
+          </ProviderName>
+        </ProviderContainer>
+      );
+    },
+    [handleSelectProvider, selectedProviderId],
+  );
+
   return (
     <Container
-      safe
+      safeTop
       scroll
       statusBarProps={{ backgroundColor: '#28262e' }}
       refreshControl={
@@ -282,8 +302,7 @@ const AppointmentDatePicker: React.FC = () => {
             getProviderDayAvailability();
           }}
         />
-      }
-    >
+      }>
       <Header>
         <BackButton onPress={() => navigation.goBack()}>
           <FeatherIcon name="chevron-left" size={24} color="#999591" />
@@ -298,25 +317,9 @@ const AppointmentDatePicker: React.FC = () => {
       </Header>
       <ProvidersListContainer>
         <ProvidersList
-          data={providers}
+          data={providers as Provider[]}
           keyExtractor={provider => provider.id}
-          renderItem={({ item: provider }) => (
-            <ProviderContainer
-              selected={provider.id === selectedProviderId}
-              onPress={() => {
-                handleSelectProvider(provider);
-              }}
-            >
-              <ProviderAvatar
-                size={32}
-                nome={provider.name}
-                source={{ uri: provider.avatar_url || undefined }}
-              />
-              <ProviderName bold selected={provider.id === selectedProviderId}>
-                {provider.name}
-              </ProviderName>
-            </ProviderContainer>
-          )}
+          renderItem={renderProvider}
         />
       </ProvidersListContainer>
 
@@ -378,8 +381,7 @@ const AppointmentDatePicker: React.FC = () => {
                           onPress={() => {
                             setSelectedDate(date);
                           }}
-                          active={isSameDay(date, selectedDate)}
-                        >
+                          active={isSameDay(date, selectedDate)}>
                           {day}
                         </CalendarDateItem>
                       );
@@ -405,8 +407,7 @@ const AppointmentDatePicker: React.FC = () => {
                 available={available}
                 selected={hour === selectedHour}
                 onPress={() => setSelectedHour(hour)}
-                key={hourFormatted}
-              >
+                key={hourFormatted}>
                 <HourText selected={hour === selectedHour}>
                   {hourFormatted}
                 </HourText>
@@ -424,8 +425,7 @@ const AppointmentDatePicker: React.FC = () => {
                 available={available}
                 selected={hour === selectedHour}
                 onPress={() => setSelectedHour(hour)}
-                key={hourFormatted}
-              >
+                key={hourFormatted}>
                 <HourText selected={hour === selectedHour}>
                   {hourFormatted}
                 </HourText>
@@ -437,8 +437,7 @@ const AppointmentDatePicker: React.FC = () => {
 
       <CreateAppointmentButton
         onPress={handleCreateAppointment}
-        enabled={!!selectedDate && !!selectedProviderId && !!selectedHour}
-      >
+        enabled={!!selectedDate && !!selectedProviderId && !!selectedHour}>
         Agendar
       </CreateAppointmentButton>
     </Container>

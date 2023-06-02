@@ -1,19 +1,18 @@
 import axios, { AxiosResponse } from 'axios';
-import Config from 'react-native-config';
 
 import * as ApiTypes from './api.types';
 
 const createApi = () => {
   const axiosInstance = axios.create({
-    baseURL: Config.API_URL,
+    baseURL: 'http://localhost:3333',
   });
 
   const setToken = (token: string) => {
-    axiosInstance.defaults.headers.authorization = `Bearer ${token}`;
+    axiosInstance.defaults.headers.common.Authorization = `Bearer ${token}`;
   };
 
   const removeToken = () => {
-    axiosInstance.defaults.headers.authorization = undefined;
+    axiosInstance.defaults.headers.common.Authorization = undefined;
   };
 
   const signup = (signupParams: ApiTypes.SignupParams) => {
@@ -38,7 +37,7 @@ const createApi = () => {
             resolve(response);
           })
           .catch(reject);
-      }
+      },
     );
   };
 
@@ -47,22 +46,22 @@ const createApi = () => {
   };
 
   const getProviderDayAvailability = (
-    params: ApiTypes.ProviderDayAvailabilityParams
+    params: ApiTypes.ProviderDayAvailabilityParams,
   ) => {
     const { providerId, day, month, year } = params;
     return axiosInstance.get<ApiTypes.ProviderDayAvailabilityResponse>(
       `providers/${providerId}/day-availability`,
-      { params: { day, month, year } }
+      { params: { day, month, year } },
     );
   };
 
   const getProviderMonthAvailability = (
-    params: ApiTypes.ProviderMonthAvailabilityParams
+    params: ApiTypes.ProviderMonthAvailabilityParams,
   ) => {
     const { providerId, month, year } = params;
     return axiosInstance.get<ApiTypes.ProviderMonthAvailabilityResponse>(
       `providers/${providerId}/month-availability`,
-      { params: { month, year } }
+      { params: { month, year } },
     );
   };
 
@@ -71,18 +70,13 @@ const createApi = () => {
 
     return axiosInstance.post<ApiTypes.CreateAppointmentResponse>(
       'appointments',
-      { provider_id, date }
+      { provider_id, date },
     );
   };
 
   const updateProfile = (params: ApiTypes.UpdateProfileParams) => {
-    const {
-      name,
-      email,
-      password,
-      password_confirmation,
-      old_password,
-    } = params;
+    const { name, email, password, password_confirmation, old_password } =
+      params;
 
     return axiosInstance.put<ApiTypes.UpdateProfileResponse>('profile', {
       name,
@@ -96,7 +90,8 @@ const createApi = () => {
   const updateAvatar = (formData: FormData) => {
     return axiosInstance.patch<ApiTypes.UpdateAvatarResponse>(
       'users/avatar',
-      formData
+      formData,
+      { headers: { 'Content-Type': 'multipart/form-data' } },
     );
   };
 

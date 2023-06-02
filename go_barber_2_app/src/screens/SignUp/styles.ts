@@ -1,5 +1,4 @@
 import styled from 'styled-components/native';
-import { Platform } from 'react-native';
 
 import MyScreen from '../../components/Screen';
 import MyText from '../../components/Text';
@@ -7,15 +6,13 @@ import MyInput from '../../components/Input';
 import MyButton from '../../components/Button';
 import MyTextButton from '../../components/TextButton';
 
-export const Screen = styled(MyScreen)`
-  padding: 0 30px;
-`;
+export const Screen = styled(MyScreen)``;
 
 export const Scrollable = styled.ScrollView.attrs({
   showsVerticalScrollIndicator: false,
   contentContainerStyle: {
     flexGrow: 1,
-    paddingBottom: 80,
+    paddingTop: 24,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -39,11 +36,9 @@ export const Button = styled(MyButton)`
 export const BackToLogin = styled(MyTextButton).attrs({
   buttonProps: {
     style: {
-      position: 'absolute',
-      left: 0,
-      bottom: 0,
-      right: 0,
       justifyContent: 'center',
+      marginTop: 'auto',
+      alignSelf: 'stretch',
       backgroundColor: '#312e38',
       paddingVertical: 16,
       borderTopWidth: 1,

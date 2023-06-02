@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useState } from 'react';
+import * as React from 'react';
 import { Image, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { FormHandles } from '@unform/core';
@@ -37,31 +37,30 @@ interface SignupDataForm {
 
 const SignUp: React.FC = () => {
   const { signUp } = useAuth();
-  const navigation = useNavigation<
-    StackNavigationProp<AuthStackParams, 'SignUp'>
-  >();
+  const navigation =
+    useNavigation<StackNavigationProp<AuthStackParams, 'SignUp'>>();
 
-  const [fetching, setFetching] = useState(false);
+  const [fetching, setFetching] = React.useState(false);
 
-  const emailRef = useRef<TextInput>(null);
-  const passwordRef = useRef<TextInput>(null);
-  const formRef = useRef<FormHandles>(null);
+  const emailRef = React.useRef<TextInput>(null);
+  const passwordRef = React.useRef<TextInput>(null);
+  const formRef = React.useRef<FormHandles>(null);
 
-  const handleLogin = useCallback(
+  const handleLogin = React.useCallback(
     (email?: string) => {
-      navigation.navigate('Login', { email });
+      navigation.navigate('Login', { email: email || '' });
     },
-    [navigation]
+    [navigation],
   );
 
-  const handleSignUpSubmit = useCallback(
+  const handleSignUpSubmit = React.useCallback(
     async (data: SignupDataForm) => {
       setFetching(true);
       formRef.current?.setErrors({});
 
       try {
         await signUpSchema.validate(data, { abortEarly: false });
-      } catch (err) {
+      } catch (err: any) {
         const errors = getValidationErrors(err);
 
         setFetching(false);
@@ -93,70 +92,71 @@ const SignUp: React.FC = () => {
 
       setFetching(false);
     },
-    [handleLogin, signUp]
+    [handleLogin, signUp],
   );
 
   return (
-    <>
-      <Screen>
-        <Scrollable keyboardShouldPersistTaps="handled">
-          <Image source={logo} />
+    <Screen safeTop>
+      <Scrollable keyboardShouldPersistTaps="handled">
+        <Image source={logo} />
 
-          <Title bold>Crie sua conta</Title>
+        <Title bold>Crie sua conta</Title>
 
-          <Form onSubmit={handleSignUpSubmit} ref={formRef}>
-            <Input
-              name="name"
-              icon="user"
-              autoCapitalize="words"
-              placeholder="Nome"
-              blurOnSubmit={false}
-              returnKeyType="next"
-              onSubmitEditing={() => {
-                emailRef.current && emailRef.current.focus();
-              }}
-            />
-            <Input
-              name="email"
-              icon="mail"
-              keyboardType="email-address"
-              autoCorrect={false}
-              autoCapitalize="none"
-              placeholder="E-mail"
-              blurOnSubmit={false}
-              returnKeyType="next"
-              onSubmitEditing={() => {
-                passwordRef.current && passwordRef.current.focus();
-              }}
-              ref={emailRef}
-            />
-            <Input
-              name="password"
-              icon="lock"
-              secureTextEntry
-              placeholder="Senha"
-              textContentType="newPassword"
-              onSubmitEditing={() => {
-                formRef?.current?.submitForm();
-              }}
-              returnKeyType="send"
-              ref={passwordRef}
-            />
-            <Button
-              loading={fetching}
-              onPress={() => {
-                formRef?.current?.submitForm();
-              }}
-            >
-              Cadastrar
-            </Button>
-          </Form>
-        </Scrollable>
-      </Screen>
-      <BackToLogin icon="arrow-left" onPress={handleLogin}>
-        Voltar para logon
-      </BackToLogin>
-    </>
+        <Form
+          onSubmit={handleSignUpSubmit}
+          ref={formRef}
+          style={{ marginHorizontal: 24 }}>
+          <Input
+            name="name"
+            icon="user"
+            autoCapitalize="words"
+            placeholder="Nome"
+            blurOnSubmit={false}
+            returnKeyType="next"
+            onSubmitEditing={() => {
+              emailRef.current && emailRef.current.focus();
+            }}
+          />
+          <Input
+            name="email"
+            icon="mail"
+            keyboardType="email-address"
+            autoCorrect={false}
+            autoCapitalize="none"
+            placeholder="E-mail"
+            blurOnSubmit={false}
+            returnKeyType="next"
+            onSubmitEditing={() => {
+              passwordRef.current && passwordRef.current.focus();
+            }}
+            ref={emailRef}
+          />
+          <Input
+            name="password"
+            icon="lock"
+            secureTextEntry
+            placeholder="Senha"
+            textContentType="newPassword"
+            onSubmitEditing={() => {
+              formRef?.current?.submitForm();
+            }}
+            returnKeyType="send"
+            ref={passwordRef}
+          />
+          <Button
+            loading={fetching}
+            onPress={() => {
+              formRef?.current?.submitForm();
+            }}>
+            Cadastrar
+          </Button>
+        </Form>
+
+        <BackToLogin icon="arrow-left" onPress={() => handleLogin()}>
+          Voltar para logon
+        </BackToLogin>
+      </Scrollable>
+    </Screen>
   );
 };
 
