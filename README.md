@@ -32,6 +32,14 @@
   <p align="center">
     An awesome scheduling app for barbers
   </p>
+
+  <p align="center">
+    ~~~~~~~~~~ <a href="https://drive.google.com/uc?export=download&id=16GFqFha8em4vvAYSKLqBesBWI5YaI6nG" target="_blank">App</a> ~~~~~~~~~~
+  </p>
+
+  <p align="center">
+    ~~~~~~~~~~ <a href="https://caioquirinomedeiros.github.io/go-barber-2.0" target="_blank">Web</a> ~~~~~~~~~~
+  </p>
 </p>
 
 <!-- TABLE OF CONTENTS -->
@@ -123,7 +131,7 @@ cd go_barber_2_app
 yarn install
 ```
 
-- Open the `.env` file and set the API url (it's probably **_<http://localhost:3333>_**)
+- Open the `src/services/api.ts` file and set the correct API url on axios instance (it's probably **_<http://localhost:3333>_**)
 
 - You may need to reverse port 8081 for metro bundler work correctly. You may need to reverse port 3333 to allow your app connect with the api. And you may need to reverse port 8097 if you are going to use Flipper to debug. So I made it simple:
 
@@ -134,7 +142,7 @@ yarn adb-reverse
 - Set an environment variable called `ENVFILE` with the value of your `.env` file and then build the project. Okay, I've leave a script for that, but it might not work depending on your OS, in this case, search how to proper set an environment variable on your OS
 
 ```sh
-yarn android:development
+yarn android
 ```
 
 - Run the Metro Bundler server if it has not started automatically

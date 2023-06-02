@@ -5,6 +5,7 @@ import * as ApiTypes from './api.types';
 const createApi = () => {
   const axiosInstance = axios.create({
     baseURL: 'http://localhost:3333',
+    // baseURL: 'https://go-barber.onrender.com',
   });
 
   const setToken = (token: string) => {
