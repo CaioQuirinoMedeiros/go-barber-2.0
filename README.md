@@ -222,7 +222,7 @@ Feel free to contribute on this project **(and leave a star!!)**
 ---
 ---
 
-[![linkedin](https://github.com/CaioQuirinoMedeiros/Firebase-Authentication/assets/48543208/722ba77b-f540-4c13-99f4-5e1f19fb9de6)][1]
+[![linkedin](https://github-production-user-asset-6210df.s3.amazonaws.com/48543208/242285840-722ba77b-f540-4c13-99f4-5e1f19fb9de6.png)][1]
 [![github96](https://github.com/CaioQuirinoMedeiros/Firebase-Authentication/assets/48543208/857b0dcd-fff0-4656-94ae-a0bbbec04959)][2]
 [![at96](https://github.com/CaioQuirinoMedeiros/Firebase-Authentication/assets/48543208/ea06b015-d43c-44ee-8f6f-bcf79bff5635)][3]
 [![rocket96](https://github.com/CaioQuirinoMedeiros/Firebase-Authentication/assets/48543208/37623ac9-9ca6-42c8-9238-16d1967eee56)][4]
