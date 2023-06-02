@@ -220,6 +220,14 @@ Feel free to contribute on this project **(and leave a star!!)**
 </a>
 
 ---
+---
+
+[![linkedin](https://github.com/CaioQuirinoMedeiros/Firebase-Authentication/assets/48543208/722ba77b-f540-4c13-99f4-5e1f19fb9de6)][1]
+[![github96](https://github.com/CaioQuirinoMedeiros/Firebase-Authentication/assets/48543208/857b0dcd-fff0-4656-94ae-a0bbbec04959)][2]
+[![at96](https://github.com/CaioQuirinoMedeiros/Firebase-Authentication/assets/48543208/ea06b015-d43c-44ee-8f6f-bcf79bff5635)][3]
+[![rocket96](https://github.com/CaioQuirinoMedeiros/Firebase-Authentication/assets/48543208/37623ac9-9ca6-42c8-9238-16d1967eee56)][4]
+
+---
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
@@ -234,3 +242,7 @@ Feel free to contribute on this project **(and leave a star!!)**
 [issues-url]: https://github.com/CaioQuirinoMedeiros/go-barber-2.0/issues
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/caio-quirino-0a916812a/
+[1]: https://github.com/CaioQuirinoMedeiros
+[2]: https://www.linkedin.com/in/caio-quirino-medeiros/
+[3]: mailto:caio.quirino.medeiros@gmail.com
+[4]: https://app.rocketseat.com.br/me/caio-medeiros-1562947679
