@@ -207,25 +207,17 @@ Feel free to contribute on this project **(and leave a star!!)**
   <img src="https://avatars.githubusercontent.com/u/48543208?s=400&u=f056bca652dc7e1619b6e275ac220a4b91a0cf88&v=4" width="60px" height="60px">
 </span>
 <a href="https://github.com/CaioQuirinoMedeiros" target="_blank">
-  <img src="https://github.com/CaioQuirinoMedeiros/Firebase-Authentication/assets/48543208/857b0dcd-fff0-4656-94ae-a0bbbec04959" width="40px" height="40px">
+  <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/48543208/242285825-857b0dcd-fff0-4656-94ae-a0bbbec04959.png" width="40px" height="40px">
 </a>
 <a href="https://www.linkedin.com/in/caio-quirino-medeiros/" target="_blank">
-  <img src="https://github.com/CaioQuirinoMedeiros/Firebase-Authentication/assets/48543208/722ba77b-f540-4c13-99f4-5e1f19fb9de6" width="40px" height="40px">
+  <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/48543208/242285840-722ba77b-f540-4c13-99f4-5e1f19fb9de6.png" width="40px" height="40px">
 </a>
 <a href="mailto:caio.quirino.medeiros@gmail.com" target="_blank">
-  <img src="https://github.com/CaioQuirinoMedeiros/Firebase-Authentication/assets/48543208/ea06b015-d43c-44ee-8f6f-bcf79bff5635" width="40px" height="40px">
+  <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/48543208/242286838-ea06b015-d43c-44ee-8f6f-bcf79bff5635.png" width="40px" height="40px">
 </a>
 <a href="https://app.rocketseat.com.br/me/caio-medeiros-1562947679" target="_blank">
-  <img src="https://github.com/CaioQuirinoMedeiros/Firebase-Authentication/assets/48543208/37623ac9-9ca6-42c8-9238-16d1967eee56" width="40px" height="40px">
+  <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/48543208/242286854-37623ac9-9ca6-42c8-9238-16d1967eee56.png" width="40px" height="40px">
 </a>
-
----
----
-
-[![linkedin](https://github-production-user-asset-6210df.s3.amazonaws.com/48543208/242285840-722ba77b-f540-4c13-99f4-5e1f19fb9de6.png)][1]
-[![github96](https://github.com/CaioQuirinoMedeiros/Firebase-Authentication/assets/48543208/857b0dcd-fff0-4656-94ae-a0bbbec04959)][2]
-[![at96](https://github.com/CaioQuirinoMedeiros/Firebase-Authentication/assets/48543208/ea06b015-d43c-44ee-8f6f-bcf79bff5635)][3]
-[![rocket96](https://github.com/CaioQuirinoMedeiros/Firebase-Authentication/assets/48543208/37623ac9-9ca6-42c8-9238-16d1967eee56)][4]
 
 ---
 
